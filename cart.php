@@ -7,5 +7,10 @@
 </head>
 <body>
     <h1>Welcome to your Cart</h1>
+
+<?php
+    include_once('connection.php');
+    
+?>
 </body>
 </html>

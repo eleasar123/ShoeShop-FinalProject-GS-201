@@ -56,14 +56,62 @@
 
 <body bgcolor="white">
     <div class="container-fluid" id="div1">
-        <form id="form1">
+        <form id="form1" method="POST">
             <label for="email">Email Address</label>
             <input type="text" name="emailAddress" id="emailAddress"><br>
             <label for="password">Password</label>
             <input type="password" name="password" id="password"><br>
-            <a href="landing.html"><button type="button" id="buttonOne" name="buttonOne">Submit</button></a>
+            <button type="submit" id="buttonOne" name="buttonOne">Submit</button>
         </form>
     </div>
+
+   <?php 
+
+   include_once("connection.php");
+   if(isset($_POST['buttonOne'])){
+    $emailAddress=$_POST['emailAddress'];
+    echo $emailAddress;
+    $passWord=$_POST['password'];
+    echo $passWord;
+
+
+
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }else{
+        $sql = "SELECT * FROM `users` WHERE `EmailAddress` = '".$emailAddress."' AND `Password`= '".$passWord."'";
+        $result = $conn->query($sql);
+        $result = mysqli_query($conn,$sql)or die(mysqli_error());
+        $num_row = mysqli_num_rows($result);
+        $row=mysqli_fetch_array($result);
+        if( $num_row ==1 )
+            {
+        $_SESSION['UserId']=$row['UserId'];
+        header("Location: landing.php");
+        echo 'hi there';
+        exit;
+        }
+        else
+            {
+            echo "Error: " . $emailAddress . " and " . $passWord." does not exist/match";
+        }
+    // if ($conn->query($sql) === TRUE) {
+    //     while($row = $result->fetch_assoc()){
+    //             $name = $row["Username"];
+    //             echo "Hello: $name<br>";
+    //         }
+        
+    //     header( 'Location: landing.php' ) ;
+        
+    // } else {
+    //     echo "Error: " . $emailAddress . " and " . $passWord." does not exist/match";
+    // }
+    
+    // $conn->close();
+    }
+
+   }
+   ?>
 </body>
 
 </html>
