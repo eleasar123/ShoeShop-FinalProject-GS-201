@@ -70,9 +70,7 @@
    include_once("connection.php");
    if(isset($_POST['buttonOne'])){
     $emailAddress=$_POST['emailAddress'];
-    echo $emailAddress;
     $passWord=$_POST['password'];
-    echo $passWord;
 
 
 
@@ -86,10 +84,9 @@
         $row=mysqli_fetch_array($result);
         if( $num_row ==1 )
             {
-        $_SESSION['UserId']=$row['UserId'];
+        // $_SESSION['UserId']=$row['UserId'];
         header("Location: landing.php");
         echo 'hi there';
-        exit;
         }
         else
             {

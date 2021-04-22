@@ -1,242 +1,414 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Landing Page</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <style>
-        #shoe1{
-            text-align: center;
-        }
-        .modal-body{
-            text-align: center;
-        }
-        .addToCart{
-          background-color: skyblue;
-          border-radius: 5px;
-          height: 40px;
-          color: white;
-          
-        }
-        .orderButton{
-          width: 10vw;
-          margin-bottom: 50px;
-        }
-        .custom-select{
-          width: 20vw;
-          margin: 10px;
-        }
-        label, .totalAmount, .price{
-          font-size: 20px;
-        }
-        
-    </style>
+<title>Page Title</title>
+<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>BORUTOY</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+  
+  <!-- Roboto Font -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700&display=swap">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="homecssandjs/boostrap.min.css">
+  <!-- Material Design Bootstrap -->
+  <link rel="stylesheet" href="homecssandjs/mdb-pro.min.css">
+  <!-- Material Design Bootstrap Ecommerce -->
+  <link rel="stylesheet" href="homecssandjs/mdb.ecommerce.min.css">
+  <!-- TRENDING BOOSTRAP -->
+  <link href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css'>
+
+  <!-- FONT -->
+  <link href='https://fonts.googleapis.com/css?family=Actor' rel='stylesheet'>
+  
+<!-- Ahref verification -->
+<meta name="ahrefs-site-verification" content="cd945a30a32beb9f20f22626c5f801f2063a726c6fd9af1db55ce27eafaa1e45">
 </head>
-<body>
-    <!-- Button trigger modal -->
-<div  class="card">
-    <div id="shoe1" class="container">
-        <h1 id="firstH1">Sapatos 1</h1>
-        
-        <img src="data:image/jpeg;base64,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"><br>
-        <label>Price</label>
-        <p id="price1" name="price" >299</p>
-        <br><button class="orderButton" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter" >Order Now</button>
-      </div>
+<body class="fixed-sn skin-light mdb-skin-custom" data-spy="scroll" data-target="#scrollspy" data-offset="15">
     
-</div>  
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Order Details</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form method="POST" class="form-group">
-            <div class="container-fluid">
-                <h1 class="head1" name="head1">Hello</h1>
-            </div>
-            <div class="dropdown">
-                <label>
-                    Available Sizes
-                </label>
-                <select class="custom-select" id="inputGroupSelect01">
-                  <option selected>Small</option>
-                  <option value="1">Medium</option>
-                  <option value="2">Large</option>
-                  <option value="3">XL</option>
-                </select>
-            </div>
-              <div class="dropdown">
-              <label>
-                    Available Colors
-                </label>
-                <select class="custom-select" id="inputGroupSelect01">
-                  <option selected>Black</option>
-                  <option value="1">White</option>
-                  <option value="2">Yellow</option>
-                  <option value="3">Pink</option>
-                </select>
-              </div>
-              
-              <div class="container">
-                <label>Quantity</label>
-                <input type="number" name="quantity" class="quantity"><br>
-                <label>Total:</label>
-                <span class="totalAmount" name="totalAmount"><Span>
-              </div>
-          </form> 
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel Order</button>
-          <button type="submit"  class="addToCart" name="submit" >Add to Cart</button>
-        </div>
+<div class="container">
+<div class="row">
+
+<div class="col-md-4">
+
+<section id="advanced-example">
+  <!--Title-->
+  <h2 class="section-heading mb-4">
+    Advanced example
+  </h2>
+ <!-- Description -->
+  <!--Section: Live preview-->
+    <!-- Card -->
+    <div class="card" style="max-width: 22rem;">
+
+      <div class="view zoom overlay">
+        <img class="img-fluid w-100" src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Vertical/13a.jpg"
+          alt="Sample">
+        <h4 class="mb-0"><span class="badge badge-primary badge-pill badge-news">Sale</span></h4>
+        <a href="#!">
+          <div class="mask">
+            <img class="img-fluid w-100" src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Vertical/13.jpg">
+            <div class="mask rgba-black-slight"></div>
+          </div>
+        </a>
       </div>
+      <div class="card-body text-center">
+
+        <h5>Fantasy T-shirt</h5>
+        <p class="small text-muted text-uppercase mb-2">Shirts</p>
+        <ul class="rating">
+          <li>
+            <i class="fas fa-star fa-sm text-primary"></i>
+          </li>
+          <li>
+            <i class="fas fa-star fa-sm text-primary"></i>
+          </li>
+          <li>
+            <i class="fas fa-star fa-sm text-primary"></i>
+          </li>
+          <li>
+            <i class="fas fa-star fa-sm text-primary"></i>
+          </li>
+          <li>
+            <i class="far fa-star fa-sm text-primary"></i>
+          </li>
+        </ul>
+        <hr>
+        <h6 class="mb-3">
+          <span class="text-danger mr-1">$10.99</span>
+          <span class="text-grey"><s>$30.99</s></span>
+        </h6>
+        <button type="button" class="orderButton" class="btn btn-primary btn-sm mr-1 mb-2" >
+          <i class="fas fa-shopping-cart pr-2"></i>Buy Now
+        </button>
+        <button type="button" class="btn btn-light btn-sm mr-1 mb-2">
+          <i class="fas fa-info-circle pr-2"></i>Details
+        </button>
+        <button type="button" class="btn btn-danger btn-sm px-3 mb-2 material-tooltip-main" data-toggle="tooltip"
+          data-placement="top" title="Add to wishlist">
+          <i class="far fa-heart"></i>
+        </button>
+      </div>
+    </div>
+</section>
+</div>
+
+<div class="modal" id="productDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+    <form method="POST" class="form-group" id="form">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Order Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="container-fluid">
+          <input id="productName" name="productName" style="visibility:hidden;"  value="">
+          <input id="price" name="price" style="visibility:hidden;" value="">
+              <h1 class="head1"></h1>
+
+          </div>
+          <div class="dropdown">
+              <label>
+                  Available Sizes
+              </label>
+              <select class="custom-select" id="sizes">
+                
+                <option value="Small" selected>Small</option>
+                <option value="Medium">Medium</option>
+                <option value="Large">Large</option>
+                <option value="XL">XL</option>
+                <option value="XL">XXL</option>
+              </select>
+              <input id="size" name='size' style="visibility:hidden;" value="">
+          </div>
+            <div class="dropdown">
+            <label>
+                  Available Colors
+              </label>
+              <select class="custom-select" id="colors">
+                <option selected value="Black">Black</option>
+                <option value="White">White</option>
+                <option value="Yellow">Yellow</option>
+                <option value="Pink">Pink</option>
+                <option value="Red">Red</option>
+                <option value="Orange">Orange</option>
+                <option value="Green">Green</option>
+              </select>
+              <input id="color" name="color" style="visibility:hidden;" value="">
+            </div>
+            <br>
+            <div class="container">
+              <label>Quantity</label>
+              <input type="number" name="quantity" class="quantity"><br>
+              <label>Total:</label>
+              <input id=total type="text" name="total" style="visibility:hidden;" value="">
+              <span class="totalAmount" name="totalAmount"><Span>
+            </div>
+      </div>
+      <div class="modal-footer">
+        <button id="cancelOrder"type="button" class="close" class="btn btn-primary">Cancel Order</button>
+        <button type="submit"  id="addToCart" name="submit2" class="addToCart">Add to Cart</button>
+      </div>
+    </form>
     </div>
   </div>
- <br>
- <br>
- <br>
- <br>
- <br>
+</div>
 
+<div class="col-md-4">
 
-  <!-- 2222222222222 -->
+<section id="advanced-example">
+  <!--Title-->
+  <h2 class="section-heading mb-4">
+    Advanced example
+  </h2>
+ <!-- Description -->
+  <!--Section: Live preview-->
+    <!-- Card -->
+    <div class="card" style="max-width: 22rem;">
 
-   <!-- Button trigger modal -->
-<div  class="card">
-    <div id="shoe1" class="container">
-        <h1 id="firstH1">Sapatos 2</h1>
-        <img src="data:image/jpeg;base64,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"><br>
-        <label>Price</label>
-        <p id="price12" name="price">300</p>
-        <br><button class="orderButton" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter" >Order Now</button>
+      <div class="view zoom overlay">
+        <img class="img-fluid w-100" src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Vertical/13a.jpg"
+          alt="Sample">
+        <h4 class="mb-0"><span class="badge badge-primary badge-pill badge-news">Sale</span></h4>
+        <a href="#!">
+          <div class="mask">
+            <img class="img-fluid w-100" src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Vertical/13.jpg">
+            <div class="mask rgba-black-slight"></div>
+          </div>
+        </a>
       </div>
-    
-</div>  
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Order Details</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body" method="POST">
-        <form method="POST" class="form-group">
-            <div class="container-fluid">
-                <h1 class="head1" name="head1">Hello</h1>
-            </div>
-            <div class="dropdown">
-                <label>
-                    Available Sizes
-                </label>
-                <select class="custom-select" id="inputGroupSelect01">
-                  <option selected>Small</option>
-                  <option value="1">Medium</option>
-                  <option value="2">Large</option>
-                  <option value="3">XL</option>
-                </select>
-            </div>
-              <div class="dropdown">
-              <label>
-                    Available Colors
-                </label>
-                <select class="custom-select" id="inputGroupSelect01">
-                  <option selected>Black</option>
-                  <option value="1">White</option>
-                  <option value="2">Yellow</option>
-                  <option value="3">Pink</option>
-                </select>
-              </div>
-              
-              <div class="container">
-                <label>Quantity</label>
-                <input type="number" name="quantity" class="quantity"><br>
-                <label>Total:</label>
-                <span class="totalAmount" name="totalAmount"><Span>
-              </div>
-          </form> 
-      </div> 
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel Order</button>
-          <button  type="submit"  class="addToCart" name="submit">Add to Cart</button>
-        </div>
+      <div class="card-body text-center">
+
+        <h5>Passerelles Numeriques T-shirt</h5>
+        <p class="small text-muted text-uppercase mb-2">Shirts</p>
+        <ul class="rating">
+          <li>
+            <i class="fas fa-star fa-sm text-primary"></i>
+          </li>
+          <li>
+            <i class="fas fa-star fa-sm text-primary"></i>
+          </li>
+          <li>
+            <i class="fas fa-star fa-sm text-primary"></i>
+          </li>
+          <li>
+            <i class="fas fa-star fa-sm text-primary"></i>
+          </li>
+          <li>
+            <i class="far fa-star fa-sm text-primary"></i>
+          </li>
+        </ul>
+        <hr>
+        <h6 class="mb-3">
+          <span class="text-danger mr-1">$2.99</span>
+          <span class="text-grey"><s>$25.99</s></span>
+        </h6>
+        <button type="button" class="orderButton" class="btn btn-primary btn-sm mr-1 mb-2" >
+          <i class="fas fa-shopping-cart pr-2"></i>Buy Now
+        </button>
+        <button type="button" class="btn btn-light btn-sm mr-1 mb-2">
+          <i class="fas fa-info-circle pr-2"></i>Details
+        </button>
+        <button type="button" class="btn btn-danger btn-sm px-3 mb-2 material-tooltip-main" data-toggle="tooltip"
+          data-placement="top" title="Add to wishlist">
+          <i class="far fa-heart"></i>
+        </button>
       </div>
     </div>
-  </div>  
+</section>
+
+</div>
+
+
+<div class="col-md-4">
+<section id="advanced-example">
+  <!--Title-->
+  <h2 class="section-heading mb-4">
+    Advanced example
+  </h2>
+ <!-- Description -->
+  <!--Section: Live preview-->
+    <!-- Card -->
+    <div class="card" style="max-width: 22rem;">
+
+      <div class="view zoom overlay">
+        <img class="img-fluid w-100" src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Vertical/13a.jpg"
+          alt="Sample">
+        <h4 class="mb-0"><span class="badge badge-primary badge-pill badge-news">Sale</span></h4>
+        <a href="#!">
+          <div class="mask">
+            <img class="img-fluid w-100" src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Vertical/13.jpg">
+            <div class="mask rgba-black-slight"></div>
+          </div>
+        </a>
+      </div>
+      <div class="card-body text-center">
+
+        <h5>Hello World T-shirt</h5>
+        <p class="small text-muted text-uppercase mb-2">Shirts</p>
+        <ul class="rating">
+          <li>
+            <i class="fas fa-star fa-sm text-primary"></i>
+          </li>
+          <li>
+            <i class="fas fa-star fa-sm text-primary"></i>
+          </li>
+          <li>
+            <i class="fas fa-star fa-sm text-primary"></i>
+          </li>
+          <li>
+            <i class="fas fa-star fa-sm text-primary"></i>
+          </li>
+          <li>
+            <i class="far fa-star fa-sm text-primary"></i>
+          </li>
+        </ul>
+        <hr>
+        <h6 class="mb-3">
+          <span class="text-danger mr-1">$1.99</span>
+          <span class="text-grey"><s>$6.99</s></span>
+        </h6>
+        <button type="button" class="orderButton" class="btn btn-primary btn-sm mr-1 mb-2" >
+          <i class="fas fa-shopping-cart pr-2"></i>Buy Now
+        </button>
+        <button type="button" class="btn btn-light btn-sm mr-1 mb-2">
+          <i class="fas fa-info-circle pr-2"></i>Details
+        </button>
+        <button type="button" class="btn btn-danger btn-sm px-3 mb-2 material-tooltip-main" data-toggle="tooltip"
+          data-placement="top" title="Add to wishlist">
+          <i class="far fa-heart"></i>
+        </button>
+      </div>
+    </div>
+</section>
+
+</div>
+</div>
+  
+</div>
+
+
+<div class ='container'>
+<div class ='row'>
+<div class ='col-md-5'>
+
+</div>
+
+<div class ='col-md-5'>
+
+</div>
+
+<div class ='col-md-5'>
+</div>
+</div>
+</div> 
+<div class="card" style="width: 30vw"><a href="cart.php">Check Cart</a></div>
+
+
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous"></script> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script>
-    $(document).ready(function(){
-        $(".orderButton").click(function(){
-          console.log($(".orderButton").siblings('p'));
-            var productName=$(this).siblings().html();
-            console.log(productName);
-            // var priceId=$(".orderButton").siblings('p').attr('id');
-            var price=$(".orderButton").siblings('p').html();
-            // console.log(typeof(productName));
-            var product=$(this).siblings().not('.orderButton');
-            // console.log(productAndPic)
-            $(".head1").html($(product));
-            $('.quantity').keyup(()=>{
-              var quantity=$('.quantity').val();
-              $('.totalAmount').html(price*quantity);
-        });
-            
 
-        });
-
-        $("button.addToCart").click(()=>{
-          console.log("Clicked");
+  $(document).ready(function(){
+    
+    // console.log($('.orderButton').parents().filter(".mask").html());
+    $(".orderButton").click(function(){
+        $('#productDetails').modal('show');
+        var productName=$(this).siblings('h5').html();
+        console.log(productName);
+          var price=$(this).siblings('.mb-3');
+          price=price.clone();
+          console.log(price)
+          var price2=price.children('.text-danger').html();
+          $('#price').val(price2);
+          price=price.children('.text-danger').html().substr(1);
+          var product=$(this).siblings().not('button');
+          product=product.clone();
+          var img=$(this).parent();
+          img=img.siblings('.view').children('img');
+          img=img.clone();
+          img=img.css({'border-radius':'5%'});
+          $('#productName').val(productName);
+          $('.head1').prepend(img);
+          $(".head1").append(product);
+          
+          $('#color').val($('#colors').val());
+          $('#size').val($('#sizes').val());
+          $('#sizes').change(()=>{
+            $('#size').val($('#sizes').val());
+          })
+          $('#sizes').change(()=>{
+            $('#color').val($('#colors').val());
+          })
+          $('.quantity').keyup(()=>{
+            var quantity=$('.quantity').val();
+            $('.totalAmount').html('$'+Math.round(price*quantity*100.00)/100.00);
+            $('#total').val('$'+Math.round(price*quantity*100.00)/100.00);
+          });
+          $('.addToCart').click(()=>{
+            console.log("added to carts");
+            $('.addToCart').html("Added to Cart");
+           
+          })
+          $("#cancelOrder").click(()=>{
+            $('#productDetails').modal('hide');
+            $('.head1').html('');
+      
+   
+      })
          
-        })
+      })
      
-    })
+          
+      });
+     
+</script>
+<?php
+include_once('connection.php');
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
+
+if(isset($_POST['submit2'])){
+    $productName=$_POST['productName'];
+    $price=$_POST['price'];
+    $quantity=$_POST['quantity'];
+    $size=$_POST['size'];
+    $color=$_POST['color'];
+    $totalAmount=$_POST['total'];
+
+  if($productName!="" && $price!="" && $quantity!="" && $size!="" && $color!="" && $totalAmount!=""){
+    $sql = "insert into cart(ProductName,Price, Size, Color, Quantity, TotalAmount) VALUES('".$productName."', '".$price."', '".$size."', '".$color."', '".$quantity."', '".$totalAmount."')";
+  
+  if ($conn->query($sql) === TRUE) {
+    // header( 'Location: display.html' ) ;
+  } else {
+    echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  
+  $conn->close();
+  
+  }
+  
+}
+?>
+<script>
+  //prevent form to submit on page reload
+if ( window.history.replaceState ) {
+  window.history.replaceState( null, null, window.location.href );
+}
 </script>
 </body>
 </html>
-<?php
-  $servername = "localhost";
-  $username = "root";
-  $password = "";
-  $dbname = "shoeshop";
-      if(isset($_POST['submit'])){
-          $productName=$_POST['head1'];
-          alert($productName);
-          $passWord=$_POST['password'];
-          echo $passWord;
-          $conn = new mysqli($servername, $username, $password, $dbname);
-          echo($conn);
 
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }else{
-        $sql = "insert into `users` values('"."')";
-        $result = $conn->query($sql);
-        if ($result) {
-            while($row = $result->fetch_assoc()){
-                    $name = $row["Username"];
-                    echo "Hello: $name<br>";
-                }
-                // header( 'Location: landing.php' ) ;
-        } else {
-            echo "Error: " . $emailAddress . " and " . $passWord." does not exist/match";
-        }
-        
-        $conn->close();
-        }
-      }
     
-
-
-          ?>
