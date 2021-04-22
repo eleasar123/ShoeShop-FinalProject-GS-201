@@ -49,12 +49,10 @@
         <img class="img-fluid w-100" src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Vertical/13a.jpg"
           alt="Sample">
         <h4 class="mb-0"><span class="badge badge-primary badge-pill badge-news">Sale</span></h4>
-        <a href="#!">
           <div class="mask">
             <img class="img-fluid w-100" src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Vertical/13.jpg">
             <div class="mask rgba-black-slight"></div>
           </div>
-        </a>
       </div>
       <div class="card-body text-center">
 
@@ -103,7 +101,7 @@
     <form method="POST" class="form-group" id="form">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLongTitle">Order Details</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -323,8 +321,9 @@
     
     // console.log($('.orderButton').parents().filter(".mask").html());
     $(".orderButton").click(function(){
+      $('#productDetails').modal({backdrop: 'static', keyboard: false})  
         $('#productDetails').modal('show');
-        var productName=$(this).siblings('h5').html();
+        var productName=$(this).siblings('h5').html();  
         console.log(productName);
           var price=$(this).siblings('.mb-3');
           price=price.clone();
@@ -335,7 +334,10 @@
           var product=$(this).siblings().not('button');
           product=product.clone();
           var img=$(this).parent();
-          img=img.siblings('.view').children('img');
+          img=img.siblings('.view').children('div.mask');
+          console.log(img.children('img'));
+          img=img.children('img');
+          // console.log(img.html());
           img=img.clone();
           img=img.css({'border-radius':'5%'});
           $('#productName').val(productName);
@@ -366,6 +368,12 @@
       
    
       })
+      $(".close").click(()=>{
+            $('#productDetails').modal('hide');
+            $('.head1').html('');
+      
+   
+      })
          
       })
      
@@ -378,6 +386,8 @@ include_once('connection.php');
 if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
+// $_SESSION['UserId']=$_SESSION['UserId'];
+// echo "<h1>". $_SESSION['UserId']. "</h1>";
 
 if(isset($_POST['submit2'])){
     $productName=$_POST['productName'];
@@ -404,7 +414,7 @@ if(isset($_POST['submit2'])){
 ?>
 <script>
   //prevent form to submit on page reload
-if ( window.history.replaceState ) {
+if (window.history.replaceState ){
   window.history.replaceState( null, null, window.location.href );
 }
 </script>

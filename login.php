@@ -66,8 +66,9 @@
     </div>
 
    <?php 
-
    include_once("connection.php");
+    session_start();
+   
    if(isset($_POST['buttonOne'])){
     $emailAddress=$_POST['emailAddress'];
     $passWord=$_POST['password'];
@@ -78,33 +79,23 @@
         die("Connection failed: " . $conn->connect_error);
     }else{
         $sql = "SELECT * FROM `users` WHERE `EmailAddress` = '".$emailAddress."' AND `Password`= '".$passWord."'";
-        $result = $conn->query($sql);
-        $result = mysqli_query($conn,$sql)or die(mysqli_error());
+        // $result = $conn->query($sql);
+        $result = mysqli_query($conn,$sql);
         $num_row = mysqli_num_rows($result);
         $row=mysqli_fetch_array($result);
         if( $num_row ==1 )
             {
-        // $_SESSION['UserId']=$row['UserId'];
+        $_SESSION['UserId']=$row['UserId'];
         header("Location: landing.php");
-        echo 'hi there';
         }
         else
             {
+
             echo "Error: " . $emailAddress . " and " . $passWord." does not exist/match";
         }
-    // if ($conn->query($sql) === TRUE) {
-    //     while($row = $result->fetch_assoc()){
-    //             $name = $row["Username"];
-    //             echo "Hello: $name<br>";
-    //         }
-        
-    //     header( 'Location: landing.php' ) ;
-        
-    // } else {
-    //     echo "Error: " . $emailAddress . " and " . $passWord." does not exist/match";
-    // }
+   
     
-    // $conn->close();
+    $conn->close();
     }
 
    }
