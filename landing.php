@@ -29,11 +29,11 @@
 <meta name="ahrefs-site-verification" content="cd945a30a32beb9f20f22626c5f801f2063a726c6fd9af1db55ce27eafaa1e45">
 </head>
 <body class="fixed-sn skin-light mdb-skin-custom" data-spy="scroll" data-target="#scrollspy" data-offset="15">
-    
-<div class="container">
+<!-- <section class="container-fluid">    -->
+<div class="container-fluid">
 <div class="row">
 
-<div class="col-md-4">
+<!-- <div class="col-md-12"> -->
 
 
   <?php
@@ -53,8 +53,9 @@
        ?>
       
     
-
-     <div class="card" style="max-width: 20rem; height: fit-content">
+    <!-- <div class="container col-sm-12"> -->
+    <!-- <div class="row col-sm-12"> -->
+     <div class="card col-sm-4" style="max-width: 20rem; height: fit-content">
 
       <div class="view zoom overlay">
       <h2 style="visibility:hidden"><?php echo $row['ProductId']; ?></h2> 
@@ -119,9 +120,11 @@
        
       </div>
     </div>
-</section>
+
+<!-- </div> -->
 </div>	
-      
+</div> 
+<!-- </section>      -->
 <?php
         $count++;
         }
