@@ -33,7 +33,7 @@
 <div class="container-fluid">
 <div class="row">
 
-<!-- <div class="col-md-12"> -->
+<div class="col-xl-12">
 
 
   <?php
@@ -49,13 +49,12 @@
       $count=1;
       
       while($row = $result->fetch_assoc()){
-      $description=$row['Description'];  
        ?>
       
     
     <!-- <div class="container col-sm-12"> -->
     <!-- <div class="row col-sm-12"> -->
-     <div class="card col-sm-4" style="max-width: 20rem; height: fit-content">
+     <div class="card" style="max-width: 20rem; height: fit-content">
 
       <div class="view zoom overlay">
       <h2 style="visibility:hidden"><?php echo $row['ProductId']; ?></h2> 
@@ -99,11 +98,11 @@
         </ul>
         <hr>
         <h6 class="mb-3">
-          <span class="text-danger mr-1"><?php echo "Php ".$row['Price']; ?></span>
-          <span class="text-grey"><s><?php echo "Php ".$row['OriginalPrice']; ?></s></span>
+          <span class="text-danger mr-1"><?php echo 'Php '.$row['Price']; ?></span>
+          <span class="text-grey"><s><?php echo 'Php '.$row['OriginalPrice']; ?></s></span>
         </h6>
-        
-        <button type="button" class="orderButton" class="btn btn-primary btn-sm mr-1 mb-2" >
+       
+        <button type="button"  class="orderButton" class="btn btn-primary btn-sm mr-1 mb-2" >
           <i class="fas fa-shopping-cart pr-2"></i>Buy Now
         </button>
         
@@ -119,9 +118,10 @@
         </button>
        
       </div>
+      
     </div>
 
-<!-- </div> -->
+</div>
 </div>	
 </div> 
 <!-- </section>      -->
@@ -144,14 +144,57 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div> 
-      <div class="modal-body" >
+      <div class="modal-body">
+      <input id="productName" name="productName" style="visibility:hidden;height:10px;width:20px;margin:0px">
+          <input id="price" name="price"  style="visibility:hidden;height:5px;margin:0pxwidth:20px;">
           <div class="container-fluid">
-          <input id="productName" name="productName" style="visibility:hidden;"  value="">
-          <input id="price" name="price" style="visibility:hidden;" value="">
+          
               <h1 class="head1"></h1>
-
+          <div id="pName" class="pName" style="visibility:hidden;height:5px;margin:0pxwidth:20px;"></div>
           </div>
           <div class="dropdown">
+          <?php
+
+            // if(isset($_POST['orderButton'])){
+            //   $productId=$_POST['productId'];
+            //   echo $productId;
+            // }
+          
+          // your HTML data from the question
+          // preg_match( '/<div id="\pName\">(.*?)<\/div>/', $data);
+          
+            $data = '<div id="pName" class="pName" style="visibility:hidden;height:5px;margin:0pxwidth:20px;"></div>';
+          $dom = new DOMDocument;
+          $dom -> loadHTML($data);
+          $divs = $dom -> getElementById('pName');
+          
+          // foreach ( $divs as $div ){
+            echo $divs->nodeValue;
+              // if ( $div -> hasAttribute('class') && strpos( $div -> getAttribute('class'), 'pName' ) != false ){
+                  // return $div -> nodeValue;
+                  // echo $div -> nodeValue;
+          
+        
+        // if ($result->num_rows > 0) {
+        //   $count=1;
+          
+        //   while($row = $result->fetch_assoc()){
+
+        //   }
+        // }
+        ?>
+        <script>
+        $(document).ready(function(){
+          $productId=$('#pName').html();
+          alert($productId);
+        })
+        </script>
+        <?php
+          $pId=$productId;
+          echo $pId;
+        ?>
+       
+
               <label>
                   Available Sizes
               </label>
@@ -163,11 +206,12 @@
                 <option value="XL">XL</option>
                 <option value="XL">XXL</option>
               </select>
-              <input id="size" name='size' style="visibility:hidden;" value="">
+              <input id="size" name='size' style="visibility:hidden;height:5px;margin:0pxwidth:20px;" value="">
           </div>
             <div class="dropdown">
             <label>
-                  Available Colors
+            <?php echo $divs-> nodeValue. 'Available Colors';?>
+                 
               </label>
               <select class="custom-select" id="colors">
                 <option selected value="Black">Black</option>
@@ -178,16 +222,16 @@
                 <option value="Orange">Orange</option>
                 <option value="Green">Green</option>
               </select>
-              <input id="color" name="color" style="visibility:hidden;" value="">
+              <input id="color" name="color" style="visibility:hidden;height:5px;margin:0pxwidth:20px;;" value="">
             </div>
+            <div class='card'name="stocks" class="stocks"><span>Stocks</span></div>
             <br>
             <div class="container">
               <label>Quantity</label>
               <input type="number" name="quantity" class="quantity"><br>
               <label>Total:</label>
               <span class="totalAmount" name="totalAmount"></span>
-              <input id=total type="text" name="total" style="visibility:hidden;" value="">
-              
+              <input id=total type="text" name="total" style="visibility:hidden;height:5px;margin:0pxwidth:20px;;" value="">
             </div>
       </div>
       <div class="modal-footer">
@@ -198,8 +242,15 @@
     </div>
   </div>
 </div>
+<?php
 
+        //   }
+        // }
 
+        
+        $sql = "SELECT * FROM `stocks`";
+        $result = $conn->query($sql);
+?>
 
 <div class="card" style="width: 30vw"><a href="cart.php">Check Cart</a></div>
 
@@ -221,21 +272,25 @@
       console.log(pId)
       console.log($('#'+pId))
       $('#'+pId).collapse('toggle');
-     
+      
       
     })
 
     $(".orderButton").click(function(){
       console.log("clicked")
       $('#productDetails').modal({backdrop: 'static', keyboard: false})  
+        $productId=$(this).parent();
+        $productId=$productId.siblings('.view').children('h2');
+        $productId=$productId.html();
+        $('#pName').html($productId)
         $('#productDetails').modal('show');
         var productName=$(this).siblings('h5').html();  
           var price=$(this).siblings('.mb-3');
           price=price.clone();
-          console.log(price)
-          var price2=price.children('.text-danger').html();
-          $('#price').val(price2);
           price=price.children('.text-danger').html().substr(3);
+          $('#price').val(price);
+          
+          console.log(price)
           var product=$(this).siblings().not('button');
           product=product.not('.collapse');
           product=product.clone();
