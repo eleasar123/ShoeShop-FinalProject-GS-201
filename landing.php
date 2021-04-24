@@ -55,7 +55,7 @@
     <!-- <div class="container col-sm-12"> -->
     <!-- <div class="row col-sm-12"> -->
      <div class="card" style="max-width: 20rem; height: fit-content">
-
+     <form id="idForm" method="POST">
       <div class="view zoom overlay">
       <h2 style="visibility:hidden"><?php echo $row['ProductId']; ?></h2> 
         <img class="img-fluid w-100" src="<?php echo $row['ProductPhoto']; ?>"
@@ -101,7 +101,7 @@
           <span class="text-danger mr-1"><?php echo 'Php '.$row['Price']; ?></span>
           <span class="text-grey"><s><?php echo 'Php '.$row['OriginalPrice']; ?></s></span>
         </h6>
-      <form id="idForm" method="POST">
+      
         <input type="text" name="productId" value="<?php echo $row['ProductId']; ?>" style="visibility:hidden;height:10px;width:20px;margin:0px">
         <button type="submit"  name="orderButton" class="orderButton" class="btn btn-primary btn-sm mr-1 mb-2" >
           <i class="fas fa-shopping-cart pr-2"></i>Buy Now
