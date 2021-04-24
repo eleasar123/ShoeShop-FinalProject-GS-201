@@ -35,50 +35,78 @@
 
 <div class="col-md-4">
 
-<section id="advanced-example">
-  <!--Title-->
-  <h2 class="section-heading mb-4">
-    Advanced example
-  </h2>
- <!-- Description -->
-  <!--Section: Live preview-->
-    <!-- Card -->
-    <div class="card" style="max-width: 22rem;">
+
+  <?php
+   include_once('connection.php');
+   if ($conn->connect_error) {
+     die("Connection failed: " . $conn->connect_error);
+   }else{
+      
+    $sql = "SELECT * FROM `products`";
+    $result = $conn->query($sql);
+    
+    if ($result->num_rows > 0) {
+      
+      while($row = $result->fetch_assoc()){
+        
+       ?>
+      
+        <!-- <tr>
+        <td><?php echo $row['ProductId']; ?></td>
+    <td><?php echo $row['ProductName']; ?></td>
+    <td ><?php echo $row['ProductType']; ?></td>
+    <td><?php echo $row['Price']; ?></td>
+    <td><?php echo $row['Rating']; ?></td> 
+
+
+         
+        </tr> -->
+
+         <div class="card" style="max-width: 22rem;">
 
       <div class="view zoom overlay">
-        <img class="img-fluid w-100" src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Vertical/13a.jpg"
+        <img class="img-fluid w-100" src="<?php echo $row['ProductPhoto']; ?>"
           alt="Sample">
         <h4 class="mb-0"><span class="badge badge-primary badge-pill badge-news">Sale</span></h4>
           <div class="mask">
-            <img class="img-fluid w-100" src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Vertical/13.jpg">
+            <img class="img-fluid w-100" src="<?php echo $row['ProductPhoto']; ?>">
             <div class="mask rgba-black-slight"></div>
           </div>
       </div>
       <div class="card-body text-center">
 
-        <h5>Fantasy T-shirt</h5>
-        <p class="small text-muted text-uppercase mb-2">Shirts</p>
+        <h5><?php echo $row['ProductName']; ?></h5>
+        <p class="small text-muted text-uppercase mb-2"><?php echo $row['ProductName']; ?></p>
         <ul class="rating">
-          <li>
+        <?php
+        $i=0;
+          $rating= $row['Rating'];
+          while($i<$rating){
+            ?>
+            <li>
             <i class="fas fa-star fa-sm text-primary"></i>
           </li>
-          <li>
-            <i class="fas fa-star fa-sm text-primary"></i>
-          </li>
-          <li>
-            <i class="fas fa-star fa-sm text-primary"></i>
-          </li>
-          <li>
-            <i class="fas fa-star fa-sm text-primary"></i>
-          </li>
-          <li>
-            <i class="far fa-star fa-sm text-primary"></i>
-          </li>
+          <?php
+          $i++;
+          
+          };
+          if($rating<5){
+            for($x=$rating;$x<5;$x++){
+              ?>
+              <li>
+              <i class="far fa-star fa-sm text-primary"></i>
+              </li>
+            <?php
+           
+            }
+          }
+        ?>
+          
         </ul>
         <hr>
         <h6 class="mb-3">
-          <span class="text-danger mr-1">$10.99</span>
-          <span class="text-grey"><s>$30.99</s></span>
+          <span class="text-danger mr-1"><?php echo "Php ".$row['Price']; ?></span>
+          <span class="text-grey"><s><?php echo "Php ".$row['OriginalPrice']; ?></s></span>
         </h6>
         <button type="button" class="orderButton" class="btn btn-primary btn-sm mr-1 mb-2" >
           <i class="fas fa-shopping-cart pr-2"></i>Buy Now
@@ -93,7 +121,16 @@
       </div>
     </div>
 </section>
-</div>
+</div>	
+        <?php
+        }
+      
+      
+      }
+   }
+      ?>
+   
+  
 
 <div class="modal" id="productDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -161,152 +198,7 @@
 
 <div class="col-md-4">
 
-<section id="advanced-example">
-  <!--Title-->
-  <h2 class="section-heading mb-4">
-    Advanced example
-  </h2>
- <!-- Description -->
-  <!--Section: Live preview-->
-    <!-- Card -->
-    <div class="card" style="max-width: 22rem;">
 
-      <div class="view zoom overlay">
-        <img class="img-fluid w-100" src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Vertical/13a.jpg"
-          alt="Sample">
-        <h4 class="mb-0"><span class="badge badge-primary badge-pill badge-news">Sale</span></h4>
-        <a href="#!">
-          <div class="mask">
-            <img class="img-fluid w-100" src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Vertical/13.jpg">
-            <div class="mask rgba-black-slight"></div>
-          </div>
-        </a>
-      </div>
-      <div class="card-body text-center">
-
-        <h5>Passerelles Numeriques T-shirt</h5>
-        <p class="small text-muted text-uppercase mb-2">Shirts</p>
-        <ul class="rating">
-          <li>
-            <i class="fas fa-star fa-sm text-primary"></i>
-          </li>
-          <li>
-            <i class="fas fa-star fa-sm text-primary"></i>
-          </li>
-          <li>
-            <i class="fas fa-star fa-sm text-primary"></i>
-          </li>
-          <li>
-            <i class="fas fa-star fa-sm text-primary"></i>
-          </li>
-          <li>
-            <i class="far fa-star fa-sm text-primary"></i>
-          </li>
-        </ul>
-        <hr>
-        <h6 class="mb-3">
-          <span class="text-danger mr-1">$2.99</span>
-          <span class="text-grey"><s>$25.99</s></span>
-        </h6>
-        <button type="button" class="orderButton" class="btn btn-primary btn-sm mr-1 mb-2" >
-          <i class="fas fa-shopping-cart pr-2"></i>Buy Now
-        </button>
-        <button type="button" class="btn btn-light btn-sm mr-1 mb-2">
-          <i class="fas fa-info-circle pr-2"></i>Details
-        </button>
-        <button type="button" class="btn btn-danger btn-sm px-3 mb-2 material-tooltip-main" data-toggle="tooltip"
-          data-placement="top" title="Add to wishlist">
-          <i class="far fa-heart"></i>
-        </button>
-      </div>
-    </div>
-</section>
-
-</div>
-
-
-<div class="col-md-4">
-<section id="advanced-example">
-  <!--Title-->
-  <h2 class="section-heading mb-4">
-    Advanced example
-  </h2>
- <!-- Description -->
-  <!--Section: Live preview-->
-    <!-- Card -->
-    <div class="card" style="max-width: 22rem;">
-
-      <div class="view zoom overlay">
-        <img class="img-fluid w-100" src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Vertical/13a.jpg"
-          alt="Sample">
-        <h4 class="mb-0"><span class="badge badge-primary badge-pill badge-news">Sale</span></h4>
-        <a href="#!">
-          <div class="mask">
-            <img class="img-fluid w-100" src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Vertical/13.jpg">
-            <div class="mask rgba-black-slight"></div>
-          </div>
-        </a>
-      </div>
-      <div class="card-body text-center">
-
-        <h5>Hello World T-shirt</h5>
-        <p class="small text-muted text-uppercase mb-2">Shirts</p>
-        <ul class="rating">
-          <li>
-            <i class="fas fa-star fa-sm text-primary"></i>
-          </li>
-          <li>
-            <i class="fas fa-star fa-sm text-primary"></i>
-          </li>
-          <li>
-            <i class="fas fa-star fa-sm text-primary"></i>
-          </li>
-          <li>
-            <i class="fas fa-star fa-sm text-primary"></i>
-          </li>
-          <li>
-            <i class="far fa-star fa-sm text-primary"></i>
-          </li>
-        </ul>
-        <hr>
-        <h6 class="mb-3">
-          <span class="text-danger mr-1">$1.99</span>
-          <span class="text-grey"><s>$6.99</s></span>
-        </h6>
-        <button type="button" class="orderButton" class="btn btn-primary btn-sm mr-1 mb-2" >
-          <i class="fas fa-shopping-cart pr-2"></i>Buy Now
-        </button>
-        <button type="button" class="btn btn-light btn-sm mr-1 mb-2">
-          <i class="fas fa-info-circle pr-2"></i>Details
-        </button>
-        <button type="button" class="btn btn-danger btn-sm px-3 mb-2 material-tooltip-main" data-toggle="tooltip"
-          data-placement="top" title="Add to wishlist">
-          <i class="far fa-heart"></i>
-        </button>
-      </div>
-    </div>
-</section>
-
-</div>
-</div>
-  
-</div>
-
-
-<div class ='container'>
-<div class ='row'>
-<div class ='col-md-5'>
-
-</div>
-
-<div class ='col-md-5'>
-
-</div>
-
-<div class ='col-md-5'>
-</div>
-</div>
-</div> 
 <div class="card" style="width: 30vw"><a href="cart.php">Check Cart</a></div>
 
 
@@ -314,13 +206,15 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
 <!-- Latest compiled JavaScript -->
-<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 <script>
 
   $(document).ready(function(){
     
     // console.log($('.orderButton').parents().filter(".mask").html());
     $(".orderButton").click(function(){
+      console.log("clicked")
       $('#productDetails').modal({backdrop: 'static', keyboard: false})  
         $('#productDetails').modal('show');
         var productName=$(this).siblings('h5').html();  
@@ -379,7 +273,10 @@
      
           
       });
-     
+//prevent form to submit on page reload
+if (window.history.replaceState ){
+  window.history.replaceState( null, null, window.location.href );
+}
 </script>
 <?php
 include_once('connection.php');
@@ -412,12 +309,8 @@ if(isset($_POST['submit2'])){
   
 }
 ?>
-<script>
-  //prevent form to submit on page reload
-if (window.history.replaceState ){
-  window.history.replaceState( null, null, window.location.href );
-}
-</script>
+
+
 </body>
 </html>
 
