@@ -46,37 +46,30 @@
     $result = $conn->query($sql);
     
     if ($result->num_rows > 0) {
+      $count=1;
       
       while($row = $result->fetch_assoc()){
-        
+      $description=$row['Description'];  
        ?>
       
-        <!-- <tr>
-        <td><?php echo $row['ProductId']; ?></td>
-    <td><?php echo $row['ProductName']; ?></td>
-    <td ><?php echo $row['ProductType']; ?></td>
-    <td><?php echo $row['Price']; ?></td>
-    <td><?php echo $row['Rating']; ?></td> 
+    
 
-
-         
-        </tr> -->
-
-         <div class="card" style="max-width: 22rem;">
+     <div class="card" style="max-width: 20rem; height: fit-content">
 
       <div class="view zoom overlay">
+      <h2 style="visibility:hidden"><?php echo $row['ProductId']; ?></h2> 
         <img class="img-fluid w-100" src="<?php echo $row['ProductPhoto']; ?>"
           alt="Sample">
         <h4 class="mb-0"><span class="badge badge-primary badge-pill badge-news">Sale</span></h4>
-          <div class="mask">
+          <!-- <div class="mask">
             <img class="img-fluid w-100" src="<?php echo $row['ProductPhoto']; ?>">
             <div class="mask rgba-black-slight"></div>
-          </div>
+          </div> -->
       </div>
       <div class="card-body text-center">
 
         <h5><?php echo $row['ProductName']; ?></h5>
-        <p class="small text-muted text-uppercase mb-2"><?php echo $row['ProductName']; ?></p>
+        <p class="small text-muted text-uppercase mb-2"><?php echo $row['ProductType']; ?></p>
         <ul class="rating">
         <?php
         $i=0;
@@ -88,7 +81,6 @@
           </li>
           <?php
           $i++;
-          
           };
           if($rating<5){
             for($x=$rating;$x<5;$x++){
@@ -100,6 +92,7 @@
            
             }
           }
+          
         ?>
           
         </ul>
@@ -108,41 +101,47 @@
           <span class="text-danger mr-1"><?php echo "Php ".$row['Price']; ?></span>
           <span class="text-grey"><s><?php echo "Php ".$row['OriginalPrice']; ?></s></span>
         </h6>
+        
         <button type="button" class="orderButton" class="btn btn-primary btn-sm mr-1 mb-2" >
           <i class="fas fa-shopping-cart pr-2"></i>Buy Now
         </button>
-        <button type="button" class="btn btn-light btn-sm mr-1 mb-2">
+        
+        <button class="details" type="button" class="btn btn-light btn-sm mr-1 mb-2" >
           <i class="fas fa-info-circle pr-2"></i>Details
         </button>
+        <div  id="<?php echo $count ?>" class="collapse" style="text-align: justify">
+        <?php echo $row['Description'];?>
+      </div>
         <button type="button" class="btn btn-danger btn-sm px-3 mb-2 material-tooltip-main" data-toggle="tooltip"
           data-placement="top" title="Add to wishlist">
           <i class="far fa-heart"></i>
         </button>
+       
       </div>
     </div>
 </section>
 </div>	
-        <?php
+      
+<?php
+        $count++;
         }
-      
-      
       }
-   }
-      ?>
+    }
    
+      ?> 
   
 
-<div class="modal" id="productDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal" id="productDetails"  tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
+    <div class="modal-content" style="width:70%; margin-left:auto; margin-right:auto; text-align:center">
     <form method="POST" class="form-group" id="form">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLongTitle">Order Details</h5>
         <button type="button" class="close" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-      </div>
-      <div class="modal-body">
+      </div> 
+      <div class="modal-body" >
           <div class="container-fluid">
           <input id="productName" name="productName" style="visibility:hidden;"  value="">
           <input id="price" name="price" style="visibility:hidden;" value="">
@@ -196,11 +195,9 @@
   </div>
 </div>
 
-<div class="col-md-4">
 
 
 <div class="card" style="width: 30vw"><a href="cart.php">Check Cart</a></div>
-
 
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous"></script> -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -211,26 +208,37 @@
 <script>
 
   $(document).ready(function(){
-    
-    // console.log($('.orderButton').parents().filter(".mask").html());
+
+    $('.details').click(function(){
+      console.log("clicked")
+      var pId=$(this).parent();
+      pId=pId.siblings('.view').children('h2');
+      pId=pId.html();
+      console.log(pId)
+      console.log($('#'+pId))
+      $('#'+pId).collapse('toggle');
+     
+      
+    })
+
     $(".orderButton").click(function(){
       console.log("clicked")
       $('#productDetails').modal({backdrop: 'static', keyboard: false})  
         $('#productDetails').modal('show');
         var productName=$(this).siblings('h5').html();  
-        console.log(productName);
           var price=$(this).siblings('.mb-3');
           price=price.clone();
           console.log(price)
           var price2=price.children('.text-danger').html();
           $('#price').val(price2);
-          price=price.children('.text-danger').html().substr(1);
+          price=price.children('.text-danger').html().substr(3);
           var product=$(this).siblings().not('button');
+          product=product.not('.collapse');
           product=product.clone();
           var img=$(this).parent();
-          img=img.siblings('.view').children('div.mask');
-          console.log(img.children('img'));
-          img=img.children('img');
+          img=img.siblings('.view').children('img');
+          // console.log(img.children('img'));
+          // img=img.children('img');
           // console.log(img.html());
           img=img.clone();
           img=img.css({'border-radius':'5%'});
@@ -248,8 +256,8 @@
           })
           $('.quantity').keyup(()=>{
             var quantity=$('.quantity').val();
-            $('.totalAmount').html('$'+Math.round(price*quantity*100.00)/100.00);
-            $('#total').val('$'+Math.round(price*quantity*100.00)/100.00);
+            $('.totalAmount').html('Php '+Math.round(price*quantity*100.00)/100.00);
+            $('#total').val(Math.round(price*quantity*100.00)/100.00);
           });
           $('.addToCart').click(()=>{
             console.log("added to carts");
