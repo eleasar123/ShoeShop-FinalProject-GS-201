@@ -182,8 +182,9 @@
               <label>Quantity</label>
               <input type="number" name="quantity" class="quantity"><br>
               <label>Total:</label>
+              <span class="totalAmount" name="totalAmount"></span>
               <input id=total type="text" name="total" style="visibility:hidden;" value="">
-              <span class="totalAmount" name="totalAmount"><Span>
+              
             </div>
       </div>
       <div class="modal-footer">
