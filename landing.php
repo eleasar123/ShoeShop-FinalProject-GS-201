@@ -8,7 +8,7 @@
   <title>BORUTOY</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
-  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <!-- Roboto Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700&display=swap">
   <!-- Font Awesome -->
@@ -67,7 +67,7 @@
           </div> -->
       </div>
       <div class="card-body text-center">
-
+   
         <h5><?php echo $row['ProductName']; ?></h5>
         <p class="small text-muted text-uppercase mb-2"><?php echo $row['ProductType']; ?></p>
         <ul class="rating">
@@ -101,8 +101,9 @@
           <span class="text-danger mr-1"><?php echo 'Php '.$row['Price']; ?></span>
           <span class="text-grey"><s><?php echo 'Php '.$row['OriginalPrice']; ?></s></span>
         </h6>
-       
-        <button type="button"  class="orderButton" class="btn btn-primary btn-sm mr-1 mb-2" >
+      <form id="idForm" method="POST">
+        <input type="text" name="productId" value="<?php echo $row['ProductId']; ?>" style="visibility:hidden;height:10px;width:20px;margin:0px">
+        <button type="submit"  name="orderButton" class="orderButton" class="btn btn-primary btn-sm mr-1 mb-2" >
           <i class="fas fa-shopping-cart pr-2"></i>Buy Now
         </button>
         
@@ -116,7 +117,7 @@
           data-placement="top" title="Add to wishlist">
           <i class="far fa-heart"></i>
         </button>
-       
+      </form>
       </div>
       
     </div>
@@ -132,7 +133,13 @@
     }
    
       ?> 
-  
+<script>
+  $(document).ready(()=>{
+    $('#idForm').submit(function(e){
+      e.preventDefault();
+    })
+  })
+</script>
 
 <div class="modal" id="productDetails"  tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -150,50 +157,16 @@
           <div class="container-fluid">
           
               <h1 class="head1"></h1>
-          <div id="pName" class="pName" style="visibility:hidden;height:5px;margin:0pxwidth:20px;"></div>
-          </div>
-          <div class="dropdown">
-          <?php
-
-            // if(isset($_POST['orderButton'])){
-            //   $productId=$_POST['productId'];
-            //   echo $productId;
-            // }
-          
-          // your HTML data from the question
-          // preg_match( '/<div id="\pName\">(.*?)<\/div>/', $data);
-          
-            $data = '<div id="pName" class="pName" style="visibility:hidden;height:5px;margin:0pxwidth:20px;"></div>';
-          $dom = new DOMDocument;
-          $dom -> loadHTML($data);
-          $divs = $dom -> getElementById('pName');
-          
-          // foreach ( $divs as $div ){
-            echo $divs->nodeValue;
-              // if ( $div -> hasAttribute('class') && strpos( $div -> getAttribute('class'), 'pName' ) != false ){
-                  // return $div -> nodeValue;
-                  // echo $div -> nodeValue;
-          
+          <div id="pName" class="pName"></div>
         
-        // if ($result->num_rows > 0) {
-        //   $count=1;
-          
-        //   while($row = $result->fetch_assoc()){
-
-        //   }
-        // }
-        ?>
-        <script>
-        $(document).ready(function(){
-          $productId=$('#pName').html();
-          alert($productId);
-        })
-        </script>
-        <?php
-          $pId=$productId;
-          echo $pId;
-        ?>
-       
+          </div>
+          <?php
+            if(isset($_POST['orderButton'])){
+              $productId=$_POST['productId'];
+              echo $productId;
+            }
+          ?>
+          <div class="dropdown">
 
               <label>
                   Available Sizes
@@ -210,7 +183,7 @@
           </div>
             <div class="dropdown">
             <label>
-            <?php echo $divs-> nodeValue. 'Available Colors';?>
+          Available Colors
                  
               </label>
               <select class="custom-select" id="colors">
@@ -242,20 +215,11 @@
     </div>
   </div>
 </div>
-<?php
-
-        //   }
-        // }
-
-        
-        $sql = "SELECT * FROM `stocks`";
-        $result = $conn->query($sql);
-?>
 
 <div class="card" style="width: 30vw"><a href="cart.php">Check Cart</a></div>
 
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous"></script> -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
 
 <!-- Latest compiled JavaScript -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
