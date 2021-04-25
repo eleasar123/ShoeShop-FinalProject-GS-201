@@ -83,9 +83,12 @@
         $result = mysqli_query($conn,$sql);
         $num_row = mysqli_num_rows($result);
         $row=mysqli_fetch_array($result);
+        $_SESSION['UserId']=$row['UserId'];
+        $_SESSION['username']=$row['Username'];
+        $_SESSION['emailAddress']=$row['EmailAddress'];
         if( $num_row ==1 )
             {
-        $_SESSION['UserId']=$row['UserId'];
+       
         header("Location: landing.php");
         }
         else

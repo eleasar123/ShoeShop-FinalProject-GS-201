@@ -1,3 +1,8 @@
+<?php
+// Start the session
+session_start();
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,123 +32,109 @@
   
 <!-- Ahref verification -->
 <meta name="ahrefs-site-verification" content="cd945a30a32beb9f20f22626c5f801f2063a726c6fd9af1db55ce27eafaa1e45">
+
+
 </head>
 <body class="fixed-sn skin-light mdb-skin-custom" data-spy="scroll" data-target="#scrollspy" data-offset="15">
 <!-- <section class="container-fluid">    -->
-<div class="container-fluid">
-<div class="row">
 
-<div class="col-xl-12">
+<div class="container">
+  <div class="row">  
 
 
-  <?php
-   include_once('connection.php');
-   if ($conn->connect_error) {
-     die("Connection failed: " . $conn->connect_error);
-   }else{
+    <?php
+    include_once('connection.php');
+    // echo $_SESSION['UserId'];
+    if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+    }else{
       
-    $sql = "SELECT * FROM `products`";
-    $result = $conn->query($sql);
-    
-    if ($result->num_rows > 0) {
-      $count=1;
+      $sql = "SELECT * FROM `products`";
+      $result = $conn->query($sql);
       
-      while($row = $result->fetch_assoc()){
-       ?>
-      
-    
-    <!-- <div class="container col-sm-12"> -->
-    <!-- <div class="row col-sm-12"> -->
-     <div class="card" style="max-width: 20rem; height: fit-content">
-     <form id="idForm" method="POST">
-      <div class="view zoom overlay">
-      <h2 style="visibility:hidden"><?php echo $row['ProductId']; ?></h2> 
-        <img class="img-fluid w-100" src="<?php echo $row['ProductPhoto']; ?>"
-          alt="Sample">
-        <h4 class="mb-0"><span class="badge badge-primary badge-pill badge-news">Sale</span></h4>
-          <!-- <div class="mask">
-            <img class="img-fluid w-100" src="<?php echo $row['ProductPhoto']; ?>">
-            <div class="mask rgba-black-slight"></div>
-          </div> -->
-      </div>
-      <div class="card-body text-center">
-   
-        <h5><?php echo $row['ProductName']; ?></h5>
-        <p class="small text-muted text-uppercase mb-2"><?php echo $row['ProductType']; ?></p>
-        <ul class="rating">
-        <?php
-        $i=0;
-          $rating= $row['Rating'];
-          while($i<$rating){
-            ?>
-            <li>
-            <i class="fas fa-star fa-sm text-primary"></i>
-          </li>
-          <?php
-          $i++;
-          };
-          if($rating<5){
-            for($x=$rating;$x<5;$x++){
-              ?>
-              <li>
-              <i class="far fa-star fa-sm text-primary"></i>
-              </li>
-            <?php
-           
-            }
-          }
+      if ($result->num_rows > 0) {
+        $count=1;
+        while($row = $result->fetch_assoc()){
           
         ?>
+    
+     <div class="col-sm-4" style="width: 20rem; height: fit-content">
+          <div class="view zoom overlay">
+         
+            <img class="img-fluid w-100" src="<?php echo $row['ProductPhoto']; ?>"
+              alt="Sample">
+            <h4 class="mb-0"><span class="badge badge-primary badge-pill badge-news">Sale</span></h4>
+            
+          </div>
+          <div class="card-body text-center">
+      
+            <h5><?php echo $row['ProductName']; ?></h5>
+            <p class="small text-muted text-uppercase mb-2"><?php echo $row['ProductType']; ?></p>
+            <ul class="rating">
+            <?php
+            $i=0;
+              $rating= $row['Rating'];
+              while($i<$rating){
+                ?>
+                <li>
+                <i class="fas fa-star fa-sm text-primary"></i>
+              </li>
+              <?php
+              $i++;
+              };
+              if($rating<5){
+                for($x=$rating;$x<5;$x++){
+                  ?>
+                  <li>
+                  <i class="far fa-star fa-sm text-primary"></i>
+                  </li>
+                <?php
+              
+                }
+              }
+              
+            ?>
+              
+            </ul>
+            <hr>
+            <h6 class="mb-3">
+              <span class="text-danger mr-1"><?php echo 'Php '.$row['Price']; ?></span>
+              <span class="text-grey"><s><?php echo 'Php '.$row['OriginalPrice']; ?></s></span>
+            </h6>
           
-        </ul>
-        <hr>
-        <h6 class="mb-3">
-          <span class="text-danger mr-1"><?php echo 'Php '.$row['Price']; ?></span>
-          <span class="text-grey"><s><?php echo 'Php '.$row['OriginalPrice']; ?></s></span>
-        </h6>
-      
-        <input type="text" name="productId" value="<?php echo $row['ProductId']; ?>" style="visibility:hidden;height:10px;width:20px;margin:0px">
-        <button type="submit"  name="orderButton" class="orderButton" class="btn btn-primary btn-sm mr-1 mb-2" >
-          <i class="fas fa-shopping-cart pr-2"></i>Buy Now
-        </button>
-        
-        <button class="details" type="button" class="btn btn-light btn-sm mr-1 mb-2" >
-          <i class="fas fa-info-circle pr-2"></i>Details
-        </button>
-        <div  id="<?php echo $count ?>" class="collapse" style="text-align: justify">
-        <?php echo $row['Description'];?>
-      </div>
-        <button type="button" class="btn btn-danger btn-sm px-3 mb-2 material-tooltip-main" data-toggle="tooltip"
-          data-placement="top" title="Add to wishlist">
-          <i class="far fa-heart"></i>
-        </button>
-      </form>
+            <button type="button"  name="orderButton" class="orderButton" class="btn btn-primary btn-sm mr-1 mb-2" >
+              <i class="fas fa-shopping-cart pr-2"></i>Buy Now
+            </button>
+            
+            <button class="details" type="button" class="btn btn-light btn-sm mr-1 mb-2" >
+              <i class="fas fa-info-circle pr-2"></i>Details
+            </button>
+            <div  id="<?php echo $count ?>" class="collapse" style="text-align: justify">
+            <?php echo $row['Description'];?>
+            </div>
+            <button type="button" class="btn btn-danger btn-sm px-3 mb-2 material-tooltip-main" data-toggle="tooltip"
+            data-placement="top" title="Add to wishlist">
+            <i class="far fa-heart"></i>
+          </button>
+          </div>
+          
       </div>
       
-    </div>
+  </div>
 
 </div>
-</div>	
-</div> 
-<!-- </section>      -->
 <?php
+  $_SESSION["id"] = $row['ProductId'];
+  // echo $_SESSION['id'];
         $count++;
         }
       }
     }
-   
       ?> 
-<script>
-  $(document).ready(()=>{
-    $('#idForm').submit(function(e){
-      e.preventDefault();
-    })
-  })
-</script>
 
 <div class="modal" id="productDetails"  tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content" style="width:70%; margin-left:auto; margin-right:auto; text-align:center">
+    <div class="modal-content" style="width:80%; margin-left:auto; margin-right:auto; text-align:center">
     <form method="POST" class="form-group" id="form">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLongTitle">Order Details</h5>
@@ -151,24 +142,34 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div> 
+     
       <div class="modal-body">
       <input id="productName" name="productName" style="visibility:hidden;height:10px;width:20px;margin:0px">
           <input id="price" name="price"  style="visibility:hidden;height:5px;margin:0pxwidth:20px;">
           <div class="container-fluid">
-          
               <h1 class="head1"></h1>
-          <div id="pName" class="pName"></div>
-        
           </div>
           <?php
-            if(isset($_POST['orderButton'])){
-              $productId=$_POST['productId'];
-              echo $productId;
-            }
-          ?>
+            
+            $id=$_SESSION['id'];   
+            echo $_SESSION['id'];
+            $sql2 = "SELECT * FROM `stocks` where ProductId='1'";
+            $result2 = $conn->query($sql2);
+            if ($result2->num_rows > 0) {
+              $colors=0;
+              
+            ?>
           <div class="dropdown">
-
-              <label>
+            <?php
+              while($row2= $result2->fetch_assoc()){
+                // $countColor=$row2['Colors'];
+                // echo $countColor;
+                // echo $row2['StockId'];
+                // echo $row2['Size'];
+                // echo $row2['Colors'];
+                // echo $row2['Quantity'];
+            ?>
+              <!-- <label>
                   Available Sizes
               </label>
               <select class="custom-select" id="sizes">
@@ -182,8 +183,8 @@
               <input id="size" name='size' style="visibility:hidden;height:5px;margin:0pxwidth:20px;" value="">
           </div>
             <div class="dropdown">
-            <label>
-          Available Colors
+            <label> -->
+          <!-- Available Colors
                  
               </label>
               <select class="custom-select" id="colors">
@@ -198,7 +199,12 @@
               <input id="color" name="color" style="visibility:hidden;height:5px;margin:0pxwidth:20px;;" value="">
             </div>
             <div class='card'name="stocks" class="stocks"><span>Stocks</span></div>
-            <br>
+            <br> -->
+            <?php
+              }
+            }
+
+          ?>
             <div class="container">
               <label>Quantity</label>
               <input type="number" name="quantity" class="quantity"><br>
@@ -229,6 +235,7 @@
   $(document).ready(function(){
 
     $('.details').click(function(){
+
       console.log("clicked")
       var pId=$(this).parent();
       pId=pId.siblings('.view').children('h2');
@@ -241,12 +248,22 @@
     })
 
     $(".orderButton").click(function(){
-      console.log("clicked")
+      // $.ajax({
+      //   type: "POST",
+      //   url:
+      //   data: <?php $_SESSION['id']?>,
+      //   sucess:function(e){
+      //     console.log(e);
+      //   }
+
+      // })
+
+
       $('#productDetails').modal({backdrop: 'static', keyboard: false})  
-        $productId=$(this).parent();
-        $productId=$productId.siblings('.view').children('h2');
-        $productId=$productId.html();
-        $('#pName').html($productId)
+        // $productId=$(this).parent();
+        // $productId=$productId.siblings('.view').children('h2');
+        // $productId=$productId.html();
+        // $('#pName').html($productId)
         $('#productDetails').modal('show');
         var productName=$(this).siblings('h5').html();  
           var price=$(this).siblings('.mb-3');
@@ -318,6 +335,7 @@ if ($conn->connect_error) {
 // echo "<h1>". $_SESSION['UserId']. "</h1>";
 
 if(isset($_POST['submit2'])){
+    $userId=$_SESSION['UserId'];
     $productName=$_POST['productName'];
     $price=$_POST['price'];
     $quantity=$_POST['quantity'];
@@ -326,7 +344,7 @@ if(isset($_POST['submit2'])){
     $totalAmount=$_POST['total'];
 
   if($productName!="" && $price!="" && $quantity!="" && $size!="" && $color!="" && $totalAmount!=""){
-    $sql = "insert into cart(ProductName,Price, Size, Color, Quantity, TotalAmount) VALUES('".$productName."', '".$price."', '".$size."', '".$color."', '".$quantity."', '".$totalAmount."')";
+    $sql = "insert into cart(UserId,ProductName,Price, Size, Color, Quantity, TotalAmount) VALUES('".$userId."','".$productName."', '".$price."', '".$size."', '".$color."', '".$quantity."', '".$totalAmount."')";
   
   if ($conn->query($sql) === TRUE) {
     // header( 'Location: display.html' ) ;
