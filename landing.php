@@ -59,6 +59,7 @@ session_start();
         ?>
     
      <div class="col-sm-4" style="width: 20rem; height: fit-content">
+        <form class="form" method="POST">
           <div class="view zoom overlay">
          
             <img class="img-fluid w-100" src="<?php echo $row['ProductPhoto']; ?>"
@@ -97,25 +98,28 @@ session_start();
               
             </ul>
             <hr>
-            <h6 class="mb-3">
-              <span class="text-danger mr-1"><?php echo 'Php '.$row['Price']; ?></span>
-              <span class="text-grey"><s><?php echo 'Php '.$row['OriginalPrice']; ?></s></span>
-            </h6>
-          
-            <button type="button"  name="orderButton" class="orderButton" class="btn btn-primary btn-sm mr-1 mb-2" >
-              <i class="fas fa-shopping-cart pr-2"></i>Buy Now
-            </button>
             
-            <button class="details" type="button" class="btn btn-light btn-sm mr-1 mb-2" >
-              <i class="fas fa-info-circle pr-2"></i>Details
-            </button>
-            <div  id="<?php echo $count ?>" class="collapse" style="text-align: justify">
-            <?php echo $row['Description'];?>
-            </div>
-            <button type="button" class="btn btn-danger btn-sm px-3 mb-2 material-tooltip-main" data-toggle="tooltip"
-            data-placement="top" title="Add to wishlist">
-            <i class="far fa-heart"></i>
-          </button>
+            <input name="pId" type="text" style="visibility:hidden;height:5px;margin:0pxwidth:20px;" value="<?php echo $row['ProductId']; ?>">
+              <h6 class="mb-3">
+                <span class="text-danger mr-1"><?php echo 'Php '.$row['Price']; ?></span>
+                <span class="text-grey"><s><?php echo 'Php '.$row['OriginalPrice']; ?></s></span>
+              </h6>
+             
+              <button type="submit"  name="orderButton" class="orderButton" class="btn btn-primary btn-sm mr-1 mb-2" >
+                <i class="fas fa-shopping-cart pr-2"></i>Buy Now
+              </button>
+              
+              <button class="details" type="button" class="btn btn-light btn-sm mr-1 mb-2" >
+                <i class="fas fa-info-circle pr-2"></i>Details
+              </button>
+              <div  id="<?php echo $count ?>" class="collapse" style="text-align: justify">
+              <?php echo $row['Description'];?>
+              </div>
+              <button type="button" class="btn btn-danger btn-sm px-3 mb-2 material-tooltip-main" data-toggle="tooltip"
+              data-placement="top" title="Add to wishlist">
+              <i class="far fa-heart"></i>
+              </button>
+            </form>
           </div>
           
       </div>
@@ -124,7 +128,7 @@ session_start();
 
 </div>
 <?php
-  $_SESSION["id"] = $row['ProductId'];
+  // $_SESSION["id"] = $row['ProductId'];
   // echo $_SESSION['id'];
         $count++;
         }
@@ -150,9 +154,10 @@ session_start();
               <h1 class="head1"></h1>
           </div>
           <?php
-            
-            $id=$_SESSION['id'];   
-            echo $_SESSION['id'];
+            include_once('getId.php');
+            // echo $productId;
+            // $id=$_SESSION['id'];   
+            // echo $_SESSION['id'];
             $sql2 = "SELECT * FROM `stocks` where ProductId='1'";
             $result2 = $conn->query($sql2);
             if ($result2->num_rows > 0) {
@@ -161,6 +166,7 @@ session_start();
             ?>
           <div class="dropdown">
             <?php
+            
               while($row2= $result2->fetch_assoc()){
                 // $countColor=$row2['Colors'];
                 // echo $countColor;
@@ -246,19 +252,22 @@ session_start();
       
       
     })
+    $('.form').submit(function(e){
+      console.log(e.target[0].defaultValue)
+      e.preventDefault();
+      $.ajax({
+        type: "POST",
+        url: "getId.php",
+        data: e.target[0].defaultValue,
+        sucess:function(response){
+          var jsonData=JSON.parse(response);
+          console.log(jsonData);
+        }
+
+      })
+    })
 
     $(".orderButton").click(function(){
-      // $.ajax({
-      //   type: "POST",
-      //   url:
-      //   data: <?php $_SESSION['id']?>,
-      //   sucess:function(e){
-      //     console.log(e);
-      //   }
-
-      // })
-
-
       $('#productDetails').modal({backdrop: 'static', keyboard: false})  
         // $productId=$(this).parent();
         // $productId=$productId.siblings('.view').children('h2');
