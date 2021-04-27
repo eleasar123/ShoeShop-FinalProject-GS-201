@@ -1,4 +1,6 @@
 <?php
-$productId=$_POST['pId'];
-echo $productId;
+
+    $id=$_POST['id']; //escape string
+echo $id;
+header('Location:landing.php');
 ?>
