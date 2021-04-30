@@ -8,6 +8,7 @@
     body {
         background-color: black;
             background-size: cover;
+            
         }
       a{
         color: blue;
@@ -17,8 +18,10 @@
     div{
       margin: 10px;
       padding: 8px;
+      text-align: center;
     }
     table{
+      max-width: 100vw;
       display: table;
       margin: 20px;
     }
@@ -43,7 +46,12 @@
 <table border="2">
   <tr>    
     <th>ProductName</th>
+    <th>ProductPhoto</th>
+    <th>ProductType</th>
+    <th>Description</th>
+    <th>Original Price</th>
     <th>Price</th>
+    <th>Rating</th>
     <th>Size</th>
     <th>Color</th>
     <th>Quantity</th>
@@ -59,7 +67,14 @@
         die("Connection failed: " . $conn->connect_error);
       }
       
-      $sql = "SELECT * FROM cart";
+      // $sql="SELECT products.ProductId,products.ProductName,products.ProductPhoto,products.ProductType,products.Description,
+      // products.OriginalPrice, products.Price, products.Rating, stocks.StockId,
+      // stocks.ProductId, stocks.Size, stocks.Colors, stocks.Quantity
+      // FROM (products
+      // INNER JOIN stocks ON products.ProductId = stocks.ProductId);";
+
+      $sql="SELECT products.ProductName,products.ProductPhoto,products.ProductType,products.Description,products.OriginalPrice, 
+      products.Price, products.Rating, cart.CartId,cart.Size,cart.Color, cart.Quantity, cart.TotalAmount FROM (cart INNER JOIN products ON products.ProductId = cart.ProductId)";
       $result = $conn->query($sql);
       
       if ($result->num_rows > 0) {
@@ -69,12 +84,17 @@
           <tr>
       
       <td><?php echo $row['ProductName']; ?></td>
+      <td><img src="<?php echo $row['ProductPhoto']; ?>"></td>
+      <td><?php echo $row['Description']; ?></td>
+      <td><?php echo $row['OriginalPrice']; ?></td>
+      <td><?php echo $row['Price']; ?></td>
+      <td><?php echo $row['Rating']; ?></td>
       <td><?php echo $row['Size']; ?></td>
       <td><?php echo $row['Color']; ?></td> 
       <td><?php echo $row['Quantity']; ?></td>
       <td><?php echo $row['TotalAmount']; ?></td>       
-      <td><a href="deleteCart.php?id=<?php echo $row['CartId']; ?>">Remove from Cart</a></td>
-      <td><a href="addToOrder.php?id=<?php echo $row['CartId']; ?>">Order Now</a></td>
+      <td><a href="deleteCart.php?id=<?php echo $row['CartId']?>">Remove from Cart</a></td>
+      <td><a href="addToOrder.php?id=<?php echo $row['CartId']?>">Order Now</a></td>
 
            
           </tr>	

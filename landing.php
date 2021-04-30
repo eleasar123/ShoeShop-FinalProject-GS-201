@@ -1,8 +1,11 @@
+ 
 <?php
 // Start the session
 session_start();
+// if($_SESSION['username']==""){
+//   header("Location:login.php");
+// }
 ?>
-
 <!DOCTYPE html>
 <html>
 
@@ -33,15 +36,12 @@ session_start();
 
   <!-- Ahref verification -->
   <meta name="ahrefs-site-verification" content="cd945a30a32beb9f20f22626c5f801f2063a726c6fd9af1db55ce27eafaa1e45">
-
 </head>
-
-<body class="fixed-sn skin-light mdb-skin-custom">
+<body class="fixed-sn skin-light mdb-skin-custom" >
+<!-- <a href="logout.php"><button>Log out</button></a> -->
   <!-- <section class="container-fluid">    -->
-
   <div class="container-fluid">
     <div class="row" style=" padding:20px;">
-
 
       <?php
     include_once('connection.php');
@@ -49,12 +49,8 @@ session_start();
     if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
     }else{
-      // $innerjoin="SELECT products.ProductId,products.ProductName,products.ProductPhoto,products.ProductType,products.Description,
-      // products.OriginalPrice, products.Price, products.Rating, stocks.StockId,
-      // stocks.ProductId, stocks.Size, stocks.Colors, stocks.Quantity
-      // FROM (products
-      // INNER JOIN stocks ON products.ProductId = stocks.ProductId);";
-      $sql = "SELECT * FROM `products`";
+     
+      $sql = "SELECT * FROM `products` order by ProductType";
       $result = $conn->query($sql);
       $count=1;
       if ($result->num_rows > 0) {
@@ -64,23 +60,24 @@ session_start();
       ?>
 
       <div class="card col-sm-4" style=" width:20rem;height: fit-content">
-        
+        <form method="POST">
           <div class="view zoom overlay">
-
             <img class="img-fluid w-100" src="<?php echo $row['ProductPhoto']; ?>" alt="Sample">
             <h4 class="mb-0"><span class="badge badge-primary badge-pill badge-news">Sale</span></h4>
 
           </div>
+      
           <h1 style="visibility:hidden;height:10px;width:20px;margin:0px"><?php echo $row['Description']?></h1>
           <div class="card-body text-center">
-        
           <h2 style="visibility:hidden;height:10px;width:20px;margin:0px"><?php echo $row['ProductId']?></h2>
             <h5>
               <?php echo $row['ProductName']; ?>
             </h5>
+            <input id="productId" name="productId" style="visibility:hidden;height:10px;width:20px;margin:0px" value="<?php echo $row['ProductId']?>">
             <p class="small text-muted text-uppercase mb-2">
               <?php echo $row['ProductType']; ?>
             </p>
+           
             <ul class="rating">
               <?php
             $i=0;
@@ -108,59 +105,69 @@ session_start();
 
             </ul>
             <hr>
-
             
             <h6 class="mb-3">
               <span class="text-danger mr-1">
-                <?php echo 'Php '.$row['Price']; ?>
+                <?php echo $row['Price']; ?>
               </span>
               <span class="text-grey"><s>
                   <?php echo 'Php '.$row['OriginalPrice']; ?>
                 </s></span>
             </h6>
            
+
             <button class="sizesAndColors" type="button" class="btn btn-light btn-sm mr-1 mb-2">
             <i class="fas fa-angle-double-down"></i>See More
             </button>
+
             <div id="<?php echo $count ?>" class="collapse" style="text-align: justify">
-            <label>
-                  Available Sizes and Colors
-              </label>
-              <select class="custom-select" id="sizes">
-            <?php
-    
-            $sql2 = "SELECT * FROM `stocks` where ProductId='".$row['ProductId']."'";
-            $result2 = $conn->query($sql2);
-            if ($result2->num_rows > 0) {
-              // $stocksCount=0;
-              while($stocks=$result2->fetch_assoc()){
-                // echo $stocks['Size'] . $stocks["Colors"].$stocks['Quantity'];
-              // $sizes=array_unique($stocks['Size']);
-            ?>     
-              <option value="<?php echo $tocks['Size'].$stocks['Colors']?>"><?php echo $stocks['Size']." ".$stocks['Colors']?>
-              Stocks:<?php echo " ".$stocks['Quantity']?></option>
-            <?php
-                }
-              }
-          
-            ?>
-            </select>
-            
-            </div><br>
+           
+              <label>
+                    Available Sizes and Colors
+                </label>
+              <select class="custom-select">
+                <?php
+        
+                $sql2 = "SELECT * FROM `stocks` where ProductId='".$row['ProductId']."'";
+                $result2 = $conn->query($sql2);
+                if ($result2->num_rows > 0) {
+                  // $stocksCount=0;
+                  while($stocks=$result2->fetch_assoc()){
+                    // echo $stocks['Size'] . $stocks["Colors"].$stocks['Quantity'];
+                  // $sizes=array_unique($stocks['Size']);
+                ?>     
+                  <option value="<?php echo $stocks['Size']." ".$stocks['Colors']?>"><?php echo $stocks['Size']." ".$stocks['Colors']?>
+                  Stocks:<?php echo " ".$stocks['Quantity']?></option>
+                <?php
+                    }
+                  }
+              
+                ?>
+              </select>
+              <input type="hidden"class="productSizeAndColor" name="productSizeAndColor" style="height:10px;width:20px;margin:0px" >
+              <div class="container">
+                  <label>Quantity:</label>
+                  <input type="text" name="quantity" class="quantity"><br>
+                  <label>Total:</label>
+                  <span class="totalAmount" name="totalAmount"></span>
+                  <input class=total type="text" name="total" style="visibility:hidden;height:5px;margin:0pxwidth:20px;;"
+                    value="">
+              </div>
+              <!-- <input class="size" name='size' style="visibility:hidden;height:5px;margin:0pxwidth:20px;" value="">  -->
+            </div>
             <button type="submit" name="orderButton" class="orderButton" class="btn btn-primary btn-sm mr-1 mb-2">
-              <i class="fas fa-shopping-cart pr-2"></i>Go to Shop
+              <i class="fas fa-shopping-cart pr-2"></i>Add to Cart
             </button>
             
             <button class="details" type="button" class="btn btn-light btn-sm mr-1 mb-2">
               <i class="fas fa-info-circle pr-2"></i>Details
             </button>
-            <div id="<?php echo $count ?>" class="collapse" style="text-align: justify">
-              <?php echo $row['Description'];?>
-            </div>
+            
             <button type="button" class="btn btn-danger btn-sm px-3 mb-2 material-tooltip-main" data-toggle="tooltip"
               data-placement="top" title="Add to wishlist">
               <i class="far fa-heart"></i>
             </button>
+        </form>
       </div>
 
       </div>
@@ -177,53 +184,14 @@ session_start();
   
 </div>
 </div> 
-<!-- 
-  <div class="modal" id="productDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content" style="width:80%; margin-left:auto; margin-right:auto; text-align:center">
-        <form method="POST" class="form-group" id="form">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLongTitle">Order Details</h5>
-            <button type="button" class="close" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
 
-          <div class="modal-body">
-          <input id="productID"  style="height:20px;width:20px;margin:0px">
-            <input id="productName" name="productName" style="visibility:hidden;height:10px;width:20px;margin:0px">
-            <input id="price" name="price" style="visibility:hidden;height:5px;margin:0pxwidth:20px;">
-            <div class="container-fluid">
-              <h1 class="head1"></h1>
-            </div> -->
-           
-              
-<!--           
-              <div class="container">
-                <label>Quantity</label>
-                <input type="number" name="quantity" class="quantity"><br>
-                <label>Total:</label>
-                <span class="totalAmount" name="totalAmount"></span>
-                <input id=total type="text" name="total" style="visibility:hidden;height:5px;margin:0pxwidth:20px;;"
-                  value="">
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button id="cancelOrder" type="button" class="close" class="btn btn-primary">Cancel Order</button>
-              <button type="submit" id="addToCart" name="submit2" class="addToCart">Add to Cart</button>
-            </div>
-        </form>
-      </div>
-    </div>
-  </div> -->
 
   <div class="modal" id="productDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content" style="width:80%; margin-left:auto; margin-right:auto; text-align:center">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLongTitle">Order Details</h5>
+            <h5 class="modal-title" id="exampleModalLongTitle">Product Description</h5>
             <button type="button" class="close" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -231,14 +199,14 @@ session_start();
 
           <div class="modal-body">
           <div id="modalContainer" class="container"></div>
-          
             <div class="modal-footer">
-              <button id="cancelOrder" type="button" class="close">Okay</button>
-              <!-- <button type="submit" id="addToCart" name="submit2" class="addToCart">Okay</button> -->
+              <button id="cancelOrder" type="button" class="close">OK</button>
             </div>
       </div>
     </div>
   </div>
+
+
 
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous"></script> -->
 
@@ -253,20 +221,24 @@ session_start();
 
     $(document).ready(function (){
 
-      // $('.details').click(function () {
-      //   var pId = $(this).parent();        
-      //   pId = pId.children('h2').html();       
-      //   console.log($('#' + pId))
-      //   $('#' + pId).collapse('toggle');
+      
+      $('.quantity').keyup(function(){
+        price=$(this).parent();
+        price=price.parent().siblings(".mb-3");
+        price=price.children(".text-danger").html();
+    
+        var quantity = $(this).val();
+        console.log(quantity);
+          $(this).siblings("span").html('Php ' + Math.round(price * quantity * 100.00) / 100.00);
+          $(this).siblings("input").val(Math.round(price * quantity * 100.00) / 100.00);
+        });
 
-      // })
      x=0;   
       $('.sizesAndColors').click(function () {
       if(x%2==0){
         $(this).html('<i class="fas fa-angle-double-up"></i>See Less')
         var pId = $(this).parent();        
         pId = pId.children('h2').html();       
-        console.log($('#' + pId))
         $('#' + pId).collapse('show');
       }else{
         $(this).html('<i class="fas fa-angle-double-down"></i>See More')
@@ -278,84 +250,20 @@ session_start();
       
 
       })
-      
-      // $(".form1").submit(function (e) {
-      //         e.preventDefault();
-      //         var id=e.target[0].defaultValue
-      //         $.ajax({
-      //           type: "POST",
-      //           url: "getId.php",
-      //           data: $(this).serialize(),
-      //           success: function (response){
-      //             console.log(response)
-      //           }
-      
-      //         })
-      //       })
 
-    //   $(".orderButton").click(function () {
-    //     $('#productDetails').modal({ backdrop: 'static', keyboard: false })
-    //     // $productId=$(this).parent();
-    //     // $productId=$productId.siblings('.view').children('h2');
-    //     // $productId=$productId.html();
-    //     // $('#pName').html($productId)
-    //     $('#productDetails').modal('show');
-    //     var productName = $(this).siblings('h5').html();
-    //     var price = $(this).siblings('.mb-3');
-    //     price = price.clone();
-    //     price = price.children('.text-danger').html().substr(3);
-    //     $('#price').val(price);
+      $('.productSizeAndColor').val($('.custom-select').val());
+      $('select.custom-select').click(function(){
+        $(this).change(() => {
+          $('.productSizeAndColor').val($(this).val());
+        })
+      })
+       
 
-    //     console.log(price)
-    //     var product = $(this).siblings().not('button');
-    //     product = product.not('.collapse');
-    //     product = product.clone();
-    //     var img = $(this).parent();
-    //     img = img.siblings('.view').children('img');
-    //     // console.log(img.children('img'));
-    //     // img=img.children('img');
-    //     // console.log(img.html());
-    //     img = img.clone();
-    //     img = img.css({ 'border-radius': '5%' });
-    //     $('#productName').val(productName);
-    //     $('.head1').prepend(img);
-    //     $(".head1").append(product);
+            $(".orderButton").click(function () {
+              $(this).html("Added to Cart");
 
-    //     $('#color').val($('#colors').val());
-    //     $('#size').val($('#sizes').val());
-    //     $('#sizes').change(() => {
-    //       $('#size').val($('#sizes').val());
-    //     })
-    //     $('#sizes').change(() => {
-    //       $('#color').val($('#colors').val());
-    //     })
-    //     $('.quantity').keyup(() => {
-    //       var quantity = $('.quantity').val();
-    //       $('.totalAmount').html('Php ' + Math.round(price * quantity * 100.00) / 100.00);
-    //       $('#total').val(Math.round(price * quantity * 100.00) / 100.00);
-    //     });
-    //     $('.addToCart').click(() => {
-    //       console.log("added to carts");
-    //       $('.addToCart').html("Added to Cart");
+            }) 
 
-    //     })
-    //     $("#cancelOrder").click(() => {
-    //       $('#productDetails').modal('hide');
-    //       $('.head1').html('');
-
-
-    //     })
-    //     $(".close").click(() => {
-    //       $('#productDetails').modal('hide');
-    //       $('.head1').html('');
-
-
-    //     })
-
-    //   })
-
-
-    // });
 
     $(".details").click(function(){
       
@@ -363,7 +271,7 @@ session_start();
       $('#productDetails').modal('show');
       var pId = $(this).parent();
       pId = pId.siblings('h1').html();
-      console.log(pId)
+      // console.log(pId)
       $("#modalContainer").html(pId);
 
       $(".close").click(() => {
@@ -383,23 +291,23 @@ include_once('connection.php');
 if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
-// $_SESSION['UserId']=$_SESSION['UserId'];
-// echo "<h1>". $_SESSION['UserId']. "</h1>";
 
-if(isset($_POST['submit2'])){
+if(isset($_POST['orderButton'])){
     $userId=$_SESSION['UserId'];
-    $productName=$_POST['productName'];
-    $price=$_POST['price'];
+    $productId=$_POST['productId'];
+    $sizeAndColor=$_POST['productSizeAndColor'];
+    $sizeAndColor=explode(" ", $sizeAndColor);
     $quantity=$_POST['quantity'];
-    $size=$_POST['size'];
-    $color=$_POST['color'];
+    $size=$sizeAndColor[0];
+    $color=$sizeAndColor[1];
+    echo $size.$color;
     $totalAmount=$_POST['total'];
 
-  if($productName!="" && $price!="" && $quantity!="" && $size!="" && $color!="" && $totalAmount!=""){
-    $sql = "insert into cart(UserId,ProductName,Price, Size, Color, Quantity, TotalAmount) VALUES('".$userId."','".$productName."', '".$price."', '".$size."', '".$color."', '".$quantity."', '".$totalAmount."')";
+  if($userId!="" && $productId!="" && $quantity!="" && $size!="" && $color!="" && $totalAmount!=""){
+    $sql = "insert into cart(UserId,ProductId, Size, Color, Quantity, TotalAmount) VALUES('".$userId."','".$productId."', '".$size."', '".$color."', '".$quantity."', '".$totalAmount."')";
   
   if ($conn->query($sql) === TRUE) {
-    // header( 'Location: display.html' ) ;
+      echo "inserted successfully";
   } else {
     echo "Error: " . $sql . "<br>" . $conn->error;
   }
@@ -410,8 +318,6 @@ if(isset($_POST['submit2'])){
   
 }
 ?>
-
-
 </body>
 
 </html>

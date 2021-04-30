@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 class myStore{
    
     private $server="mysql:host=localhost;dbname=shoeshop";
@@ -30,7 +30,7 @@ class myStore{
     }
 
     public function closeConnection(){
-        $this->$connection=null;
+        $this->connection=null;
     }
 
         public function getUsers(){
@@ -51,22 +51,29 @@ class myStore{
         
         public function login(){
             if(isset($_POST['submit'])){
-                $username=$_POST['username'];
-                $password=$_POST['password'];
-
-                $connection=$this->openConnection();
-                $statement=$connection->prepare("select * from users where emailAddress=? and Password=?");
-                $statement->execute([$username,$password]);
-                $user=$statement->fetch();
-                $total=$statement->rowCount();
-
-                if($total>0){
-                    echo "Welcome user ".$user['Name'];
-                }else{
-                    echo "Login failed";
-                }
+               if($_POST['email']!="" && $_POST['password']!=""){
+                    $connection=$this->openConnection();
+                    $email=$_POST['email'];
+                    $password=$_POST['password'];
+                    $statement=$connection->prepare("select * from users where EmailAddress=? and Password=?");
+                    $statement->execute([$email,$password]);
+                    $user=$statement->fetch();
+                    $total=$statement->rowCount();
+                    $_SESSION['username']=$user['Username'];
+                    if($total>0){
+                        // echo "Welcome user ".$user['Name'];
+                        header("Location:landing.php");
+                    }else{
+                        echo $user['EmailAddress']."and ".$user['Password']." Login failed";
+                    }
+               }else{
+                   echo "Please input a valid email address and correct password.";
+               }
+                
             }
         }
+
+        
    
 }
 $myStore=new myStore();

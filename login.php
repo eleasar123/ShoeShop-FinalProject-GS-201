@@ -73,7 +73,7 @@
     $emailAddress=$_POST['emailAddress'];
     $passWord=$_POST['password'];
 
-
+   }
 
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
@@ -84,6 +84,9 @@
         $num_row = mysqli_num_rows($result);
         $row=mysqli_fetch_array($result);
         $_SESSION['UserId']=$row['UserId'];
+        if( $num_row ==1 )
+            {
+        
         $_SESSION['username']=$row['Username'];
         $_SESSION['emailAddress']=$row['EmailAddress'];
         if( $num_row ==1 )
