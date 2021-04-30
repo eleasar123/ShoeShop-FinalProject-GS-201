@@ -1,8 +1,11 @@
+ 
 <?php
 // Start the session
 session_start();
+if($_SESSION['username']==""){
+  header("Location:login2.php");
+}
 ?>
-
 <!DOCTYPE html>
 <html>
 
@@ -33,15 +36,12 @@ session_start();
 
   <!-- Ahref verification -->
   <meta name="ahrefs-site-verification" content="cd945a30a32beb9f20f22626c5f801f2063a726c6fd9af1db55ce27eafaa1e45">
-
 </head>
-
 <body class="fixed-sn skin-light mdb-skin-custom" >
+<a href="logout.php"><button>Log out</button></a>
   <!-- <section class="container-fluid">    -->
-
   <div class="container-fluid">
     <div class="row" style=" padding:20px;">
-
 
       <?php
     include_once('connection.php');
@@ -119,41 +119,45 @@ session_start();
                 </s></span>
             </h6>
            
+
             <button class="sizesAndColors" type="button" class="btn btn-light btn-sm mr-1 mb-2">
             <i class="fas fa-angle-double-down"></i>See More
             </button>
+
             <div id="<?php echo $count ?>" class="collapse" style="text-align: justify">
-            <label>
-                  Available Sizes and Colors
-              </label>
-              <select class="custom-select" id="sizes">
-            <?php
-    
-            $sql2 = "SELECT * FROM `stocks` where ProductId='".$row['ProductId']."'";
-            $result2 = $conn->query($sql2);
-            if ($result2->num_rows > 0) {
-              // $stocksCount=0;
-              while($stocks=$result2->fetch_assoc()){
-                // echo $stocks['Size'] . $stocks["Colors"].$stocks['Quantity'];
-              // $sizes=array_unique($stocks['Size']);
-            ?>     
-              <option value="<?php echo $tocks['Size'].$stocks['Colors']?>"><?php echo $stocks['Size']." ".$stocks['Colors']?>
-              Stocks:<?php echo " ".$stocks['Quantity']?></option>
-            <?php
+           
+              <label>
+                    Available Sizes and Colors
+                </label>
+                <select class="custom-select" id="sizes">
+              <?php
+      
+              $sql2 = "SELECT * FROM `stocks` where ProductId='".$row['ProductId']."'";
+              $result2 = $conn->query($sql2);
+              if ($result2->num_rows > 0) {
+                // $stocksCount=0;
+                while($stocks=$result2->fetch_assoc()){
+                  // echo $stocks['Size'] . $stocks["Colors"].$stocks['Quantity'];
+                // $sizes=array_unique($stocks['Size']);
+              ?>     
+                <option value="<?php echo $stocks['Size'].$stocks['Colors']?>"><?php echo $stocks['Size']." ".$stocks['Colors']?>
+                Stocks:<?php echo " ".$stocks['Quantity']?></option>
+              <?php
+                  }
                 }
-              }
-          
-            ?>
-            </select>
-            <div class="container"><br>
-                <label>Quantity</label>
-                <input type="number" name="quantity" class="quantity"><br>
-                <label>Total:</label>
-                <span class="totalAmount" name="totalAmount"></span>
-                <input id=total type="text" name="total" style="visibility:hidden;height:5px;margin:0pxwidth:20px;;"
-                  value="">
-            </div>
-            <input id="size" name='size' style="visibility:hidden;height:5px;margin:0pxwidth:20px;" value=""> 
+            
+              ?>
+              </select>
+
+              <div class="container"><br>
+                  <label>Quantity</label>
+                  <input type="number" name="quantity" class="quantity"><br>
+                  <label>Total:</label>
+                  <span class="totalAmount" name="totalAmount"></span>
+                  <input id=total type="text" name="total" style="visibility:hidden;height:5px;margin:0pxwidth:20px;;"
+                    value="">
+              </div>
+              <input id="size" name='size' style="visibility:hidden;height:5px;margin:0pxwidth:20px;" value=""> 
             </div><br>
             <button type="submit" name="orderButton" class="orderButton" class="btn btn-primary btn-sm mr-1 mb-2">
               <i class="fas fa-shopping-cart pr-2"></i>Add To Cart
@@ -197,7 +201,6 @@ session_start();
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-
           <div class="modal-body">
           <input id="productID"  style="height:20px;width:20px;margin:0px">
             <input id="productName" name="productName" style="visibility:hidden;height:10px;width:20px;margin:0px">
@@ -239,7 +242,6 @@ session_start();
 
           <div class="modal-body">
           <div id="modalContainer" class="container"></div>
-          
             <div class="modal-footer">
               <button id="cancelOrder" type="button" class="close">Okay</button>
               <!-- <button type="submit" id="addToCart" name="submit2" class="addToCart">Okay</button> -->
@@ -247,6 +249,8 @@ session_start();
       </div>
     </div>
   </div>
+
+
 
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous"></script> -->
 
@@ -268,13 +272,29 @@ session_start();
       //   $('#' + pId).collapse('toggle');
 
       // })
+      $('.quantity').keyup(function(){
+        var price=$(this).parent();
+        price=price.parent().siblings("h6");
+        // price = price.clone();
+        price=price.children(".text-danger").text();
+        console.log(price);
+        price=price;
+        // alert(price)
+        console.log(price)
+        // console.log(price)
+        // console.log(price);
+        var quantity = $(this).val();
+          $('.totalAmount').html('Php ' + Math.round(price * quantity * 100.00) / 100.00);
+          $('#total').val(Math.round(price * quantity * 100.00) / 100.00);
+        });
+
      x=0;   
       $('.sizesAndColors').click(function () {
       if(x%2==0){
         $(this).html('<i class="fas fa-angle-double-up"></i>See Less')
         var pId = $(this).parent();        
         pId = pId.children('h2').html();       
-        console.log($('#' + pId))
+        // console.log($('#' + pId))
         $('#' + pId).collapse('show');
       }else{
         $(this).html('<i class="fas fa-angle-double-down"></i>See More')
@@ -285,17 +305,6 @@ session_start();
       x++;
       
 
-<<<<<<< HEAD
-<div class ='col-md-5'>
-</div>
-</div>
-</div> 
-<div class="card" style="width: 30vw"><a href="cart.php">Check Cart</a></div>
-<br>
-<div class="container" style="width:20vw;float:right;margin-right:100px;margin-bottom:50px;">
-  <a href="logout.php"><button onclick>Log out</button></a>
-</div>
-=======
       })
       
       // $(".form1").submit(function (e) {
@@ -324,7 +333,6 @@ session_start();
     //     price = price.clone();
     //     price = price.children('.text-danger').html().substr(3);
     //     $('#price').val(price);
->>>>>>> 1c9ca8c1a2a21ad7e30520b9549b9d91ddb2fb0c
 
     //     console.log(price)
     //     var product = $(this).siblings().not('button');
@@ -383,7 +391,7 @@ session_start();
       $('#productDetails').modal('show');
       var pId = $(this).parent();
       pId = pId.siblings('h1').html();
-      console.log(pId)
+      // console.log(pId)
       $("#modalContainer").html(pId);
 
       $(".close").click(() => {
@@ -430,8 +438,6 @@ if(isset($_POST['submit2'])){
   
 }
 ?>
-
-
 </body>
 
 </html>
