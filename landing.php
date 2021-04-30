@@ -50,7 +50,7 @@ session_start();
       die("Connection failed: " . $conn->connect_error);
     }else{
      
-      $sql = "SELECT * FROM `products` order by ProductType";
+      $sql = "SELECT * FROM `products`";
       $result = $conn->query($sql);
       $count=1;
       if ($result->num_rows > 0) {
@@ -220,8 +220,7 @@ session_start();
   <script>
 
     $(document).ready(function (){
-
-      
+     
       $('.quantity').keyup(function(){
         price=$(this).parent();
         price=price.parent().siblings(".mb-3");
