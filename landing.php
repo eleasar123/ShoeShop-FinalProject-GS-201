@@ -29,7 +29,18 @@
 <meta name="ahrefs-site-verification" content="cd945a30a32beb9f20f22626c5f801f2063a726c6fd9af1db55ce27eafaa1e45">
 </head>
 <body class="fixed-sn skin-light mdb-skin-custom" data-spy="scroll" data-target="#scrollspy" data-offset="15">
-    
+<div class="jumbotron">
+
+<?php
+
+    session_start();
+    if($_SESSION['username']==""){
+      header("Location:login2.php");
+    }else{
+      echo "<center><h1>Welcome ".$_SESSION['username']."</center></h1>";
+    }
+    ?>   
+</div>
 <div class="container">
 <div class="row">
 
@@ -43,6 +54,7 @@
  <!-- Description -->
   <!--Section: Live preview-->
     <!-- Card -->
+   
     <div class="card" style="max-width: 22rem;">
 
       <div class="view zoom overlay">
@@ -308,7 +320,10 @@
 </div>
 </div> 
 <div class="card" style="width: 30vw"><a href="cart.php">Check Cart</a></div>
-
+<br>
+<div class="container" style="width:20vw;float:right;margin-right:100px;margin-bottom:50px;">
+  <a href="logout.php"><button onclick>Log out</button></a>
+</div>
 
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous"></script> -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
