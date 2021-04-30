@@ -9,7 +9,7 @@ session_start();
 <head>
   <title>Page Title</title>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <title>BORUTOY</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -36,7 +36,7 @@ session_start();
 
 </head>
 
-<body class="fixed-sn skin-light mdb-skin-custom" >
+<body class="fixed-sn skin-light mdb-skin-custom">
   <!-- <section class="container-fluid">    -->
 
   <div class="container-fluid">
@@ -145,18 +145,10 @@ session_start();
           
             ?>
             </select>
-            <div class="container"><br>
-                <label>Quantity</label>
-                <input type="number" name="quantity" class="quantity"><br>
-                <label>Total:</label>
-                <span class="totalAmount" name="totalAmount"></span>
-                <input id=total type="text" name="total" style="visibility:hidden;height:5px;margin:0pxwidth:20px;;"
-                  value="">
-            </div>
-            <input id="size" name='size' style="visibility:hidden;height:5px;margin:0pxwidth:20px;" value=""> 
+            
             </div><br>
             <button type="submit" name="orderButton" class="orderButton" class="btn btn-primary btn-sm mr-1 mb-2">
-              <i class="fas fa-shopping-cart pr-2"></i>Add To Cart
+              <i class="fas fa-shopping-cart pr-2"></i>Go to Shop
             </button>
             
             <button class="details" type="button" class="btn btn-light btn-sm mr-1 mb-2">
