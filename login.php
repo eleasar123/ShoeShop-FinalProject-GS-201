@@ -87,6 +87,11 @@
         if( $num_row ==1 )
             {
         
+        $_SESSION['username']=$row['Username'];
+        $_SESSION['emailAddress']=$row['EmailAddress'];
+        if( $num_row ==1 )
+            {
+       
         header("Location: landing.php");
         }
         else

@@ -41,8 +41,7 @@
 <h2>List of Items in Cart</h2>
 
 <table border="2">
-  <tr>
-    <th>CartId</th>
+  <tr>    
     <th>ProductName</th>
     <th>Price</th>
     <th>Size</th>
@@ -68,9 +67,8 @@
         while($row = $result->fetch_assoc()){
           ?>
           <tr>
-          <td><?php echo $row['CartId']; ?></td>
+      
       <td><?php echo $row['ProductName']; ?></td>
-      <td ><?php echo $row['Price']; ?></td>
       <td><?php echo $row['Size']; ?></td>
       <td><?php echo $row['Color']; ?></td> 
       <td><?php echo $row['Quantity']; ?></td>
