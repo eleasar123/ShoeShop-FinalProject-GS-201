@@ -1,4 +1,3 @@
- 
 <?php
 // Start the session
 session_start();
@@ -40,9 +39,6 @@ session_start();
 <body class="fixed-sn skin-light mdb-skin-custom" >
 <!-- <a href="logout.php"><button>Log out</button></a> -->
   <!-- <section class="container-fluid">    -->
-
-  <a href="cart.php"><button>Cart</button></a>
- <!-- create a container which uses the maximum width/extends to both sides -->
   <div class="container-fluid">
     <div class="row" style=" padding:20px;">
 
@@ -52,11 +48,12 @@ session_start();
     if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
     }else{
-      
+     
       $sql = "SELECT * FROM `products`";
       $result = $conn->query($sql);
       $count=1;
       if ($result->num_rows > 0) {
+        
         while($row = $result->fetch_assoc()){
           
       ?>
@@ -294,22 +291,23 @@ if ($conn->connect_error) {
 }
 
 if(isset($_POST['orderButton'])){
-  // $productId=$_POST['productId'];
-  // $query="select Size, Color from products where ProductId='".$productId."'";
-  // $result = $conn->query($query);
-  // $sizeAndColor=$_POST['productSizeAndColor'];
-  
-  // if ($result->num_rows > 0) {
-  //   $valid=1;
-  //   $row2=$row['Size']." ".$row['Color'];
-  //   while($row = $result->fetch_assoc()){
-  //     if($sizeAndColor==$row2){
-  //       $valid=0;
-  //       echo "<script>alert('false');</script>";
-  //     }
-  //   }
-  // }
-  //get the user id using session after logging in
+    $productId=$_POST['productId'];
+    $query1="select Size, Color from products where ProductId='".$productId."'";
+    $result = $conn->query($query1);
+    $sizeAndColor=$_POST['productSizeAndColor'];
+    $valid;
+    if ($result->num_rows > 0) {
+      while($row = $result->fetch_assoc()){
+        $row2=$row['Size']." ".$row['Color'];
+        if($sizeAndColor==$row2){
+          echo "<script>alert('false');</script>";
+        }else{
+          echo "<script>alert('true');</script>";
+        }
+       
+      }
+    }  
+    $valid2=$valid;
     $userId=$_SESSION['UserId'];
     $productId=$_POST['productId'];
     $sizeAndColor=$_POST['productSizeAndColor'];
@@ -317,8 +315,9 @@ if(isset($_POST['orderButton'])){
     $quantity=$_POST['quantity'];
     $size=$sizeAndColor[0];
     $color=$sizeAndColor[1];
+    echo $size.$color;
     $totalAmount=$_POST['total'];
-    // echo "<script>alert('$userId+$productId+$quantity+$size+$color+$totalAmount+$valid');</script>";
+    // echo "<script>alert('$userId+$productId+$quantity+$size+$color+$totalAmount+$valid2');</script>";
   if($userId!="" && $productId!="" && $quantity!="" && $size!="" && $color!="" && $totalAmount!=""){
     $sql = "insert into cart(UserId,ProductId, Size, Color, Quantity, TotalAmount) VALUES('".$userId."','".$productId."', '".$size."', '".$color."', '".$quantity."', '".$totalAmount."')";
   
@@ -327,12 +326,10 @@ if(isset($_POST['orderButton'])){
   } else {
     echo "Error: " . $sql . "<br>" . $conn->error;
   }
-  
   $conn->close();
   
-  }else{
-    echo "<script>alert('Provide valid details before adding to your cart!');</script>";
   }
+
 
 }
 ?>

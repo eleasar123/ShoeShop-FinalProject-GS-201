@@ -26,6 +26,7 @@
 
   <!-- Ahref verification -->
   <meta name="ahrefs-site-verification" content="cd945a30a32beb9f20f22626c5f801f2063a726c6fd9af1db55ce27eafaa1e45">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous"></script>
 </head>
 <body class="fixed-sn skin-light mdb-skin-custom" >
 
@@ -33,13 +34,14 @@
       <div class="row" style=" padding:20px;">
 
       <?php
+      session_start();
     include_once('connection.php');
     // echo $_SESSION['UserId'];
     if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
     }else{
      
-      $sql="SELECT products.ProductName,products.ProductPhoto,products.ProductType,products.Description,products.OriginalPrice, 
+      $sql="SELECT products.ProductId, products.ProductName,products.ProductPhoto,products.ProductType,products.Description,products.OriginalPrice, 
       products.Price, products.Rating, cart.CartId,cart.Size,cart.Color, cart.Quantity, cart.TotalAmount FROM (cart INNER JOIN products ON products.ProductId = cart.ProductId)";
       $result = $conn->query($sql);
       
@@ -51,14 +53,16 @@
 
       <div class="card col-sm-4" style=" width:20rem;height: fit-content">
         <form method="POST">
-        <h4><?php echo $row['CartId']; ?></h4>
+        <span><?php echo $row['CartId']; ?></span>
+        <input id="userId" name="userId" style="visibility:hidden;height:10px;width:20px;margin:0px" value="<?php echo $_SESSION['UserId']?>">
+        <input id="cartId" name="cartId" style="visibility:hidden;height:10px;width:20px;margin:0px" value="<?php echo $row['CartId']?>">
           <div class="view zoom overlay">
             <img class="img-fluid w-100" src="<?php echo $row['ProductPhoto']; ?>" alt="Sample">
             <h4 class="mb-0"><span class="badge badge-primary badge-pill badge-news">Sale</span></h4>
 
           </div>
             <h5>
-              <?php echo $row['ProductName']; ?>
+              <?php echo $row['ProductName']; ?>  
             </h5>
             <p class="small text-muted text-uppercase mb-2">
               <?php echo $row['ProductType']; ?>
@@ -119,10 +123,17 @@
               data-placement="top" title="Add to wishlist">
               <i class="far fa-heart"></i>
             </button>
+            <button id="<?php echo $row['CartId']?>" type="button" class="btn btn-outline-danger">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"></path>
+  <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"></path>
+</svg>
+                Delete
+              </button>
         </form>
       </div>
-
-    
+        <br><br>
+ 
       <?php
       }
     }
@@ -131,5 +142,57 @@
 </div>
 </div> 
 
+   
+<div class="modal" id="orderDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content" style="width:80%; margin-left:auto; margin-right:auto; text-align:center">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Product Description</h5>
+            <button type="button" class="close" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <div class="modal-body">
+          <div id="modalContainer" class="container"></div>
+            <div class="modal-footer">
+              <button id="cancelOrder" type="button" class="close">OK</button>
+            </div>
+           
+      </div>
+    </div>
+  </div>
+
+  <script>
+  $(document).ready(){
+    $('.btn btn-outline-danger').click(function(){
+      console.log('clicked');
+    })
+  }
+
+  </script>
+<?php
+
+  if(isset($_POST['orderButton'])){
+    $cart=$_POST['cartId'];
+    $id=$_POST['userId'];
+    // echo "<script>alert('$cart+$id');</script>";
+    if($cart!="" && $id!=""){
+      $sql = "insert into orders(CartId,UserId) VALUES('".$cart."','".$id."') ";
+      if ($conn->query($sql) === TRUE) {
+        echo "<script>
+        alert('Thank you for your order!');
+        </script>";
+        echo "inserted successfully";
+    } else {
+      echo "<script>
+      alert('Cart already placed to order!');
+      </script>";
+      // echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    }
+  }
+?>
 </body>
 </html>
